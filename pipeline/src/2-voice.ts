@@ -63,8 +63,30 @@ function silent(text: string, out: string) {
   fs.writeFileSync(out, Buffer.concat([header, data]));
 }
 
-function say(text: string, out: string) {
-  execFileSync("say", ["-o", out, "--data-format=LEI16@22050", "--file-format=WAVE", text]);
+/**
+ * The default `say` voice cannot pronounce Devanagari at all — it produces near
+ * silence. Pick a voice that matches the script's language, and slow it slightly:
+ * the default rate reads Hindi far faster than anyone speaks it.
+ */
+const SAY_VOICE: Record<string, { voice: string; rate: number }> = {
+  hi: { voice: "Lekha", rate: 168 },
+  hinglish: { voice: "Lekha", rate: 168 },
+  en: { voice: "Rishi", rate: 180 },
+};
+
+function say(text: string, out: string, language: string) {
+  const v = SAY_VOICE[language] ?? SAY_VOICE.en;
+  const args = ["-v", v.voice, "-r", String(v.rate), "-o", out,
+                "--data-format=LEI16@22050", "--file-format=WAVE", text];
+  // On an Apple Silicon Mac whose shell runs under Rosetta, plain `say` takes
+  // >10 minutes for a single Hindi line; forcing arm64 brings it to ~35s.
+  // node reports arch "arm64" even in that shell, so the flag is not a reliable
+  // signal — always go through `arch` on macOS and fall back if it is missing.
+  try {
+    execFileSync("arch", ["-arm64", "say", ...args]);
+  } catch {
+    execFileSync("say", args);
+  }
 }
 
 const slug = slugArg();
@@ -79,7 +101,7 @@ const files: string[] = [];
 for (const seg of segs) {
   const out = path.join(audioDir, `${seg.id}.wav`);
   if (engine === "silent") silent(seg.text, out);
-  else if (engine === "say") say(seg.text, out);
+  else if (engine === "say") say(seg.text, out, script.language);
   else await sarvam(seg.text, out);
   files.push(out);
   console.log(`  ${seg.id.padEnd(7)} ${durationSeconds(out).toFixed(2)}s  ${seg.text.slice(0, 50)}`);

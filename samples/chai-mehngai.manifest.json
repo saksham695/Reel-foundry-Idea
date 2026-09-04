@@ -1,0 +1,66 @@
+[
+  {
+    "segment": "hook",
+    "kind": "photo",
+    "file": "hook.jpg",
+    "source": "https://wordpress.org/photos/photo/2265bde3f0/",
+    "license": "CC CC0 1.0 via Openverse",
+    "credit": "Amit Kumar Singh"
+  },
+  {
+    "segment": "beat-1",
+    "kind": "photo",
+    "file": "beat-1.jpg",
+    "source": "https://www.flickr.com/photos/29367605@N02/4033842585",
+    "license": "CC BY-SA 2.0 via Openverse",
+    "credit": "sourabhmassey"
+  },
+  {
+    "segment": "beat-2",
+    "kind": "photo",
+    "file": "beat-2.jpg",
+    "source": "https://www.flickr.com/photos/42372838@N00/51768223690",
+    "license": "CC BY-SA 2.0 via Openverse",
+    "credit": "Lifetime Travelmates"
+  },
+  {
+    "segment": "beat-3",
+    "kind": "photo",
+    "file": "beat-3.jpg",
+    "source": "https://wordpress.org/photos/photo/7016901e0d/",
+    "license": "CC CC0 1.0 via Openverse",
+    "credit": "Bigul Malayi"
+  },
+  {
+    "segment": "beat-4",
+    "kind": "photo",
+    "file": "beat-4.jpg",
+    "source": "https://commons.wikimedia.org/w/index.php?curid=103590236",
+    "license": "CC BY-SA 4.0 via Openverse",
+    "credit": "Numbersinstitute"
+  },
+  {
+    "segment": "beat-5",
+    "kind": "photo",
+    "file": "beat-5.jpg",
+    "source": "https://www.flickr.com/photos/29220600@N08/4000431396",
+    "license": "CC BY 2.0 via Openverse",
+    "credit": "{ pranav }"
+  },
+  {
+    "segment": "beat-6",
+    "kind": "photo",
+    "file": "beat-6.jpg",
+    "source": "https://wellcomecollection.org/works/qvxbz8x8",
+    "license": "CC BY 4.0 via Openverse",
+    "credit": "unknown"
+  },
+  {
+    "segment": "cta",
+    "kind": "photo",
+    "file": "cta.jpg",
+    "source": "https://wellcomecollection.org/works/qvxbz8x8",
+    "license": "CC BY 4.0 via Openverse",
+    "credit": "unknown"
+  }
+]

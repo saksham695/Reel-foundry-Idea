@@ -1,0 +1,18 @@
+{
+  "slug": "chai-mehngai",
+  "language": "hi",
+  "hook": "दस की चाय बीस की कब हुई, किसी को पता ही नहीं चला।",
+  "hook_visual_cue": "cutting chai glasses tray",
+  "beats": [
+    { "text": "दो साल पहले कटिंग दस रुपये की थी। रोज़ की दो।", "visual_cue": "roadside tea stall india", "on_screen": "दस रुपये" },
+    { "text": "यानी महीने का छह सौ। साल का बहत्तर सौ।", "visual_cue": "indian rupee coins counter", "on_screen": "साल का ७२००" },
+    { "text": "आज वही कटिंग बीस की है। वही रोज़ की दो।", "visual_cue": "glass of chai steaming", "on_screen": "अब बीस" },
+    { "text": "अब महीने का बारह सौ। साल का चौदह हज़ार चार सौ।", "visual_cue": "hands counting rupee notes", "on_screen": "साल का १४४००" },
+    { "text": "सात हज़ार दो सौ रुपये ज़्यादा। सिर्फ़ चाय पर।", "visual_cue": "indian currency notes", "on_screen": "७२०० ज़्यादा" },
+    { "text": "और चाय वाले ने एक बार भी नहीं कहा कि रेट बढ़ गया है।", "visual_cue": "tea seller pouring chai", "on_screen": "किसी ने कहा नहीं" }
+  ],
+  "cta": "अपनी चाय का हिसाब लगाइए। फिर बाकी चीज़ों का।",
+  "title": "दस की चाय बीस की कब हुई",
+  "caption": "दो साल में दस से बीस। साल के सात हज़ार दो सौ रुपये ज़्यादा — सिर्फ़ चाय पर।\nहिसाब खुद लगाइए।",
+  "hashtags": ["#chai", "#mehngai", "#rozanahisaab", "#india", "#hindi", "#shorts", "#hisaab"]
+}
