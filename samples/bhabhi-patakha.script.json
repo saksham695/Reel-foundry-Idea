@@ -1,0 +1,20 @@
+{
+  "slug": "bhabhi-patakha",
+  "language": "hi",
+  "hook": "गली में बच्चे पटाखे जला रहे थे। तभी सामने से भाभी आ गईं।",
+  "hook_direction": { "emotion": "amused", "emphasis": ["भाभी"], "pause_before_ms": 0 },
+  "hook_visual_cue": "children bursting firecrackers street india",
+  "beats": [
+    { "text": "एक बच्चे ने अभी चिंगारी लगाई ही थी।", "direction": { "emotion": "neutral", "emphasis": [], "pause_before_ms": 0 }, "visual_cue": "sparkler burning close up", "on_screen": "चिंगारी लगी ही थी" },
+    { "text": "और सामने से भाभी आती दिखीं।", "direction": { "emotion": "amused", "emphasis": [], "pause_before_ms": 300 }, "visual_cue": "indian woman walking street evening", "on_screen": "तभी भाभी आ गईं" },
+    { "text": "सारे बच्चे एक साथ चिल्लाने लगे।", "direction": { "emotion": "urgent", "emphasis": [], "pause_before_ms": 0 }, "visual_cue": "group of indian children laughing", "on_screen": "सब चिल्लाए" },
+    { "text": "भाभी पटाखा हैं! भाभी पटाखा हैं!", "direction": { "emotion": "amused", "emphasis": ["पटाखा"], "pause_before_ms": 0 }, "visual_cue": "diwali firecracker exploding night", "on_screen": "भाभी पटाखा हैं!" },
+    { "text": "भाभी मुस्कुराईं।", "direction": { "emotion": "warm", "emphasis": [], "pause_before_ms": 700 }, "visual_cue": "indian woman smiling portrait", "on_screen": "भाभी मुस्कुराईं" },
+    { "text": "और बोलीं — नहीं रे पगलों। अब पहले जैसी बात कहाँ?", "direction": { "emotion": "wry", "emphasis": ["पहले"], "pause_before_ms": 500 }, "visual_cue": "diwali oil lamps evening india", "on_screen": "अब पहले जैसी बात कहाँ?" }
+  ],
+  "cta": "कुछ जवाब पटाखे से भी तेज़ होते हैं।",
+  "cta_direction": { "emotion": "warm", "emphasis": ["तेज़"], "pause_before_ms": 600 },
+  "title": "भाभी पटाखा हैं",
+  "caption": "बच्चों ने चिढ़ाया। भाभी ने एक लाइन में जवाब दे दिया।\nपटाखा वही, जो वक़्त पर फूटे।",
+  "hashtags": ["#diwali", "#hindicomedy", "#patakha", "#desijokes", "#hindi", "#shorts", "#funny"]
+}

@@ -9,6 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { ScriptSchema, segments, type Script } from "./lib/schema.ts";
+import { toSSML } from "./lib/voice-direction.ts";
 import { renderDir, slugArg, readJson, writeJson, ensure, requireEnv } from "./lib/paths.ts";
 import { concat, durationSeconds } from "./lib/wav.ts";
 
@@ -21,7 +22,7 @@ async function sarvam(text: string, out: string) {
     body: JSON.stringify({
       text,
       language_code: process.env.SARVAM_LANGUAGE ?? "hi-IN",
-      model: process.env.SARVAM_MODEL ?? "bulbul:v2",
+      model: process.env.SARVAM_MODEL ?? "bulbul:v3",
       speaker: process.env.SARVAM_SPEAKER ?? "anushka",
       speech_sample_rate: SAMPLE_RATE,
       output_audio_codec: "wav",
@@ -102,7 +103,11 @@ for (const seg of segs) {
   const out = path.join(audioDir, `${seg.id}.wav`);
   if (engine === "silent") silent(seg.text, out);
   else if (engine === "say") say(seg.text, out, script.language);
-  else await sarvam(seg.text, out);
+  else await sarvam(toSSML(seg.text, {
+    emotion: seg.direction.emotion,
+    emphasis: seg.direction.emphasis,
+    pauseBefore: seg.direction.pause_before_ms,
+  }), out);
   files.push(out);
   console.log(`  ${seg.id.padEnd(7)} ${durationSeconds(out).toFixed(2)}s  ${seg.text.slice(0, 50)}`);
 }

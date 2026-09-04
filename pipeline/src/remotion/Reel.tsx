@@ -22,12 +22,12 @@ export const Reel: React.FC<Props> = ({ audio, segments, words }) => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: "#0a0a0a", fontFamily }}>
-      {segments.map((seg) => {
+      {segments.map((seg, i) => {
         const from = Math.round(seg.start * fps);
         const duration = Math.max(1, Math.round((seg.end - seg.start) * fps));
         return (
           <Sequence key={seg.id} from={from} durationInFrames={duration}>
-            <BeatVisual asset={seg.asset} />
+            <BeatVisual asset={seg.asset} index={i} />
             <OnScreen text={seg.on_screen} />
           </Sequence>
         );
