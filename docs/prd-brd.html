@@ -1,0 +1,951 @@
+<title>Reel Foundry</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --bg: #F4F5F8;
+    --surface: #FFFFFF;
+    --surface-2: #EBEDF2;
+    --ink: #171A21;
+    --muted: #5E6473;
+    --line: #D9DCE3;
+    --accent: #1F5FBF;
+    --accent-ink: #17488F;
+    --accent-bg: #E6EEFB;
+    --gate: #B8720E;
+    --gate-bg: #FBF1DF;
+    --warn-ink: #8A3B12;
+    --warn-bg: #FBE9DF;
+    --good-ink: #1B6B4F;
+    --c1: #A65E2E;
+    --c2: #1F5FBF;
+    --c3: #1B8A6B;
+    --code-bg: #EEF0F4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14171D; --surface: #1C2028; --surface-2: #232833;
+      --ink: #E6E9F0; --muted: #9AA2B2; --line: #2E3441;
+      --accent: #6FA1F0; --accent-ink: #8DB4F5; --accent-bg: #1D2A42;
+      --gate: #E5A03A; --gate-bg: #2E2617;
+      --warn-ink: #F0A47C; --warn-bg: #3A2418;
+      --good-ink: #5FC9A0;
+      --c1: #D07A45; --c2: #4F86D9; --c3: #2FA57E;
+      --code-bg: #22262F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14171D; --surface: #1C2028; --surface-2: #232833;
+    --ink: #E6E9F0; --muted: #9AA2B2; --line: #2E3441;
+    --accent: #6FA1F0; --accent-ink: #8DB4F5; --accent-bg: #1D2A42;
+    --gate: #E5A03A; --gate-bg: #2E2617;
+    --warn-ink: #F0A47C; --warn-bg: #3A2418;
+    --good-ink: #5FC9A0;
+    --c1: #D07A45; --c2: #4F86D9; --c3: #2FA57E;
+    --code-bg: #22262F;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px; line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent-ink); }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .page { max-width: 1080px; margin: 0 auto; padding: 0 24px 96px; }
+  .prose { max-width: 700px; }
+  h1, h2, h3 { font-family: "Bricolage Grotesque", "Archivo", "Helvetica Neue", sans-serif; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(40px, 6vw, 64px); font-weight: 800; letter-spacing: -0.02em; line-height: 1; }
+  h2 { font-size: 28px; font-weight: 700; letter-spacing: -0.01em; margin-top: 8px; }
+  h3 { font-size: 18px; font-weight: 700; margin-top: 28px; margin-bottom: 8px; }
+  p { margin: 12px 0; }
+  ul, ol { padding-left: 22px; margin: 10px 0; }
+  li { margin: 6px 0; }
+  li::marker { color: var(--muted); }
+  strong { font-weight: 600; }
+  code { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.9em; background: var(--code-bg); padding: 1px 5px; border-radius: 3px; }
+  pre { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-size: 13px; line-height: 1.5; background: var(--code-bg); border: 1px solid var(--line); padding: 16px 18px; overflow-x: auto; margin: 14px 0; }
+  pre code { background: none; padding: 0; font-size: inherit; }
+
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  header.masthead { padding: 56px 0 28px; border-bottom: 1px solid var(--line); }
+  .masthead .lede { font-size: 20px; color: var(--muted); max-width: 720px; margin-top: 16px; text-wrap: pretty; }
+  .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px 28px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .meta div { font-size: 14px; }
+  .meta .eyebrow { display: block; margin-bottom: 2px; }
+
+  nav.toc { position: sticky; top: 0; z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line); margin: 0 -24px; padding: 0 24px; }
+  nav.toc ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  nav.toc li { margin: 0; white-space: nowrap; }
+  nav.toc a { display: block; padding: 12px 10px; font-size: 13px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; }
+  nav.toc a:hover { color: var(--ink); }
+  nav.toc .part { padding: 12px 10px 12px 0; font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--accent-ink); align-self: center; }
+
+  section { padding-top: 48px; scroll-margin-top: 56px; }
+  section + section { border-top: 1px solid var(--line); margin-top: 48px; }
+  .part-head { padding: 56px 0 8px; margin-top: 56px; border-top: 3px solid var(--ink); }
+  .part-head .eyebrow { color: var(--accent-ink); }
+  .part-head h2 { font-size: 36px; }
+
+  .callout { border-left: 3px solid var(--accent); background: var(--accent-bg); padding: 14px 18px; margin: 18px 0; max-width: 760px; }
+  .callout.warn { border-color: var(--warn-ink); background: var(--warn-bg); }
+  .callout.gate { border-color: var(--gate); background: var(--gate-bg); }
+  .callout p { margin: 6px 0; }
+  .callout .eyebrow { margin-bottom: 4px; display: block; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 18px 0; }
+  @media (max-width: 720px) { .two { grid-template-columns: 1fr; } }
+  .panel { background: var(--surface); border: 1px solid var(--line); padding: 18px 20px; }
+  .panel .eyebrow { display: block; margin-bottom: 8px; }
+  .panel p:first-of-type { margin-top: 0; }
+  .panel ul { margin-bottom: 0; }
+
+  .table-wrap { overflow-x: auto; margin: 16px 0; border: 1px solid var(--line); background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--surface-2); }
+  tr:last-child td { border-bottom: none; }
+  td.num, th.num { text-align: right; font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.rec { font-weight: 600; }
+  tfoot td { background: var(--surface-2); font-weight: 600; }
+  .tag { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 11px; padding: 2px 7px; border: 1px solid var(--line); border-radius: 3px; white-space: nowrap; }
+  .tag.build { border-color: var(--c3); color: var(--c3); }
+  .tag.buy { border-color: var(--c1); color: var(--c1); }
+  .tag.free { border-color: var(--accent); color: var(--accent-ink); }
+  .verdict { font-weight: 600; }
+  .verdict.go { color: var(--good-ink); }
+  .verdict.cond { color: var(--gate); }
+  .verdict.no { color: var(--warn-ink); }
+
+  figure { margin: 20px 0; }
+  figure svg { max-width: 100%; height: auto; display: block; }
+  figcaption { font-size: 13px; color: var(--muted); margin-top: 8px; max-width: 760px; }
+  .diagram { background: var(--surface); border: 1px solid var(--line); padding: 12px; overflow-x: auto; }
+  .diagram svg { min-width: 760px; }
+
+  .legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; margin: 6px 0 4px; }
+  .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; background: var(--sw); }
+  .tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 12px; padding: 6px 9px; border-radius: 4px; transform: translate(-50%, -110%); white-space: nowrap; opacity: 0; transition: opacity .12s; }
+  .chart-wrap { position: relative; }
+  @media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+
+  .steps { counter-reset: step; list-style: none; padding: 0; }
+  .steps li { counter-increment: step; display: grid; grid-template-columns: 56px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); margin: 0; }
+  .steps li::before { content: counter(step, decimal-leading-zero); font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--muted); padding-top: 3px; }
+  .steps li strong { display: block; }
+  .steps li span { color: var(--muted); font-size: 14px; }
+
+  .timeline { list-style: none; padding: 0; margin: 16px 0; }
+  .timeline li { display: grid; grid-template-columns: 130px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); margin: 0; }
+  .timeline .when { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent-ink); padding-top: 2px; }
+  .timeline strong { display: block; }
+  @media (max-width: 560px) { .timeline li { grid-template-columns: 1fr; gap: 4px; } }
+
+  .sources { font-size: 13px; color: var(--muted); }
+  .sources li { margin: 4px 0; }
+  .fine { font-size: 13px; color: var(--muted); }
+</style>
+
+<div class="page">
+<header class="masthead">
+  <span class="eyebrow">PRD + BRD · Draft v0.2 · 4 September 2026</span>
+  <h1>Reel Foundry</h1>
+  <p class="lede">An engine that turns a one-line topic into a running content persona: it proposes the angle and thirty ideas, then publishes reels, posts, and stories to Instagram, YouTube, and Facebook every day behind a one-key human gate. We run our own personas on it first, then open it to anyone with a topic.</p>
+  <div class="meta">
+    <div><span class="eyebrow">Owner</span>Saksham Kumar (solo build)</div>
+    <div><span class="eyebrow">Stack</span>TypeScript · Next.js · Remotion · Postgres · BullMQ</div>
+    <div><span class="eyebrow">Our personas</span>Bhakti, AI Tools, Kahani, Comedy, Fitness &amp; Yoga, Body Talk (Men), Body Talk (Women)</div>
+    <div><span class="eyebrow">Status</span>Spec complete, no code yet</div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <ul>
+    <li class="part">PRD</li>
+    <li><a href="#problem">Problem</a></li>
+    <li><a href="#topics">Topics</a></li>
+    <li><a href="#scope">Volume</a></li>
+    <li><a href="#pipeline">Pipeline</a></li>
+    <li><a href="#onboarding">Onboarding</a></li>
+    <li><a href="#agents">Agents</a></li>
+    <li><a href="#platform">Platform</a></li>
+    <li><a href="#tools">Build vs buy</a></li>
+    <li><a href="#costs">Costs</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#risks">Risks</a></li>
+    <li class="part">BRD</li>
+    <li><a href="#streams">Streams</a></li>
+    <li><a href="#scenarios">Studio scenarios</a></li>
+    <li><a href="#saas">Product revenue</a></li>
+    <li><a href="#gates">Gates</a></li>
+  </ul>
+</nav>
+
+<div class="callout warn" style="margin-top:32px">
+  <span class="eyebrow">Read this before the rest</span>
+  <p><strong>Views and money are different axes.</strong> The topics that get shared most in India (devotional, stories, comedy, scenery) reach a Hindi-speaking audience where YouTube Shorts pay about $0.03 per 1,000 views and Instagram pays close to nothing directly. This plan chases those views on purpose, but funds itself through sponsors, affiliate products, Facebook, and long-form YouTube.</p>
+  <p><strong>A fully hands-off factory is what platforms now demonetize.</strong> YouTube's inauthentic-content policy works at the channel level and, since July 2026, names AI personas posing as health or religious authorities as a top target. Instagram cuts reach for unoriginal aggregators. Original characters, original writing, and a human gate are the moat, not polish.</p>
+  <p><strong>API access has a clock, and as a product it has a higher bar.</strong> Publishing on behalf of other people needs Meta Business Verification plus App Review, and a YouTube API compliance audit. Uploads from an unaudited YouTube project are locked private. File in week zero; ship a draft mode so no user is ever blocked on it.</p>
+</div>
+
+<!-- ============================ PRD ============================ -->
+<div class="part-head">
+  <span class="eyebrow">Part 1 of 2</span>
+  <h2>Product requirements</h2>
+</div>
+
+<section id="problem">
+  <span class="eyebrow">§1</span>
+  <h2>The problem, re-stated</h2>
+  <div class="two">
+    <div class="panel">
+      <span class="eyebrow">What you asked, across three messages</span>
+      <p>"Create multiple agents, each with an Instagram page and YouTube channel, that post 3–4 reels, posts and stories every day. What will it take, what tools, what can we build ourselves, and what income does it generate?"</p>
+      <p>"The reels that actually get shared in big numbers are god reels, things you can do with AI, running stories with characters, emotional stories, Hindi jokes with good timing and animation, and beautiful unreal scenery. Add fitness and yoga."</p>
+      <p>"Make it software: people bring an idea for a new topic, the engine generates lots of ideas across it, and onboarding a new topic is hassle-free."</p>
+      <p>"Also one page each for men and women about the issues our body faces that we cannot share with anyone. A positive page, for teaching."</p>
+    </div>
+    <div class="panel">
+      <span class="eyebrow">The sharper version</span>
+      <p>Build one <strong>persona engine</strong> and two things on top of it.</p>
+      <p><strong>The studio:</strong> our own personas (Bhakti, AI Tools, Kahani, Comedy, Fitness &amp; Yoga, and two Body Talk pages), each with an Instagram, YouTube and Facebook account, publishing 3–4 reels, a post and stories daily. This is the proof, the analytics source, and the marketing.</p>
+      <p><strong>The product:</strong> a workspace where anyone types a topic in one sentence, gets three persona angles and thirty ideas in a minute, picks a voice and look from presets, connects accounts or stays in draft mode, and has a first day of content queued for review in under ten minutes. Same engine, same pipeline, their accounts, their approval queue, our billing.</p>
+      <p>The rule that makes both work: <strong>a persona is data, never code.</strong> Anything that needs an engineer to add a topic is a bug.</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h3>Goals</h3>
+    <ul>
+      <li>Topic to first reviewable queue in under 10 minutes with no engineer involved, for us or for a customer.</li>
+      <li>Under 20 minutes of machine time and under 3 minutes of human time per persona per day.</li>
+      <li>Nothing publishes without a human key for a persona's first 90 days. Auto-publish is earned per persona by approval rate.</li>
+      <li>Every asset traceable: brief, sources, script version, voice, clips, music license, platform IDs, metrics.</li>
+      <li>Category policy packs (religion, health, intimate health, finance, kids) applied automatically at onboarding so a customer cannot accidentally build a channel that gets struck.</li>
+    </ul>
+    <h3>Non-goals for v1</h3>
+    <ul>
+      <li>Generated video as the main visual. Stills with motion and stock footage carry 90% of reels; generated clips only for hero shots.</li>
+      <li>Talking-head avatars. Faceless narration with characters and motion graphics avoids the "AI persona as authority" flag.</li>
+      <li>Comment replies, DMs, follow/unfollow. Engagement automation is where accounts get banned.</li>
+      <li>TikTok, X, LinkedIn. Three platforms is enough surface for v1.</li>
+      <li>Marketplace for selling personas or scripts between users.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="topics">
+  <span class="eyebrow">§2</span>
+  <h2>Topic lineup and verdicts</h2>
+  <p class="prose">Your feed instinct sets the lineup. Each topic is scored on the three axes that matter here: how much it gets watched and shared, what a view is worth, and how likely the platforms are to throttle it. Verdicts are for our studio; the product lets customers pick anything, with the policy pack applied.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Persona</th><th>What it is</th><th>Views</th><th>Money per view</th><th>Policy risk</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Bhakti</strong><br><span class="fine">Hindi · devotional</span></td>
+          <td>Daily darshan, one shloka with meaning, festival explainers, short katha episodes. Original narration over stylised art, not a slideshow of scraped images.</td>
+          <td>Huge. Highest share rate in India; older audience forwards to family groups.</td>
+          <td>Low from ads. Real money is astrology and puja-product affiliate, sponsors from astrology apps, and Facebook, which pays Indian pages better than Instagram and holds this audience.</td>
+          <td>High. The most templated genre on the feed; bhajan audio triggers Content ID; generated deity images can offend. Human gate is mandatory, music must be licensed or original.</td>
+          <td class="verdict go">Go. Reach engine, cross-post to Facebook from day one.</td>
+        </tr>
+        <tr>
+          <td><strong>AI Tools</strong><br><span class="fine">Hindi + English</span></td>
+          <td>"Things you can do with AI" in 45 seconds: one tool, one trick, screen recording plus narration. Hindi versions of English tutorials are underserved.</td>
+          <td>Strong and growing.</td>
+          <td>Highest of the lineup. SaaS affiliate pays 20–30% recurring; sponsors pay well; English variant reaches US RPM.</td>
+          <td>Low.</td>
+          <td class="verdict go">Go. Primary income persona.</td>
+        </tr>
+        <tr>
+          <td><strong>Kahani</strong><br><span class="fine">Hindi · serialized story</span></td>
+          <td>A cast of recurring characters in short episodes: emotional arcs, twists, "part 2 tomorrow" hooks. Character consistency across images is the production problem to solve.</td>
+          <td>Strong once a character lands; drives follows better than any other format.</td>
+          <td>Medium. Ads plus memberships; high retention lifts the Shorts revenue share; episodes compile into long-form watch hours.</td>
+          <td>Lowest. Original characters and continuity are exactly what the platforms call authentic.</td>
+          <td class="verdict go">Go. Best policy standing of the lineup.</td>
+        </tr>
+        <tr>
+          <td><strong>Comedy</strong><br><span class="fine">Hindi · character-led</span></td>
+          <td>A recurring comic character tells original jokes with timed punchlines and animation. Emotional and funny episodes can also live inside Kahani.</td>
+          <td>Strong.</td>
+          <td>Medium. Comedy is India's biggest sponsor category.</td>
+          <td>High if jokes are copied. "Convert all Hindi jokes to reels" is the reupload pattern the policy targets. Original writing only.</td>
+          <td class="verdict cond">Conditional. Original material and a named character, or skip.</td>
+        </tr>
+        <tr>
+          <td><strong>Fitness &amp; Yoga</strong><br><span class="fine">Hindi + English</span></td>
+          <td>One move or one habit per reel, yoga flows for a specific problem (back pain, desk posture), 7-day challenges. Stock footage of real people; no generated bodies.</td>
+          <td>Good, with high saves.</td>
+          <td>Good. Equipment and app affiliate, a paid 12-week plan, sponsors.</td>
+          <td>Medium. Health claims are watched; no dosing, no diet cures, no before/after bodies.</td>
+          <td class="verdict go">Go. Health policy pack applied.</td>
+        </tr>
+        <tr>
+          <td><strong>Body Talk · Men</strong> and <strong>Body Talk · Women</strong><br><span class="fine">Hindi + English · two separate accounts</span></td>
+          <td>The things people cannot ask anyone: intimate and sexual health, periods and PCOS, erectile and hair concerns, body odour, mental health, puberty. Clinical language, warm tone, sourced from WHO, ICMR and named guidelines. Diagrams and stylised illustration, never photographs. Every reel ends with when to see a doctor.</td>
+          <td>Very strong. The Hindi-language gap here is real and searches are enormous; women's health pages have the highest save and share rates of any category.</td>
+          <td>Good, but not from ads. YouTube's advertiser-friendly rules put sexual-health education in "limited ads" and may age-restrict it, which also drops a Short from the feed. Income is sponsors (men's wellness and femtech brands are among India's biggest creator advertisers) and telehealth affiliate.</td>
+          <td>Highest in the lineup. This is precisely the "AI persona as medical authority" pattern YouTube named in July 2026, and Instagram removes anything it reads as sexual solicitation. Survives only as unmistakably educational.</td>
+          <td class="verdict cond">Conditional go. Strictest policy pack, a named human medical reviewer on the page, and accept limited ads by design.</td>
+        </tr>
+        <tr>
+          <td><strong>Scenery</strong><br><span class="fine">beaches, sunsets, animals</span></td>
+          <td>Beautiful and unreal places and creatures.</td>
+          <td>Huge.</td>
+          <td>Lowest on the internet. Nothing to sell, nobody to sponsor.</td>
+          <td>Highest. Generated scenery is the textbook case in Instagram's unoriginal-content crackdown.</td>
+          <td class="verdict no">No page. Used as stories and b-roll inside other personas.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout gate">
+    <span class="eyebrow">What the Body Talk pages need that no other persona does</span>
+    <p><strong>Intimate-health policy pack.</strong> Anatomical terms only, no slang; no explicit imagery, diagrams only; no product or cure claims; no dosing; a "this is education, see a doctor" line in every caption; nothing addressed to minors; no content that could read as solicitation. The QA agent enforces it, and the pack cannot be loosened.</p>
+    <p><strong>A real human on the page.</strong> Credit a licensed doctor or counsellor as reviewer in the bio and on-screen once per reel. This is what separates health education from an AI posing as an authority, and it is also what sponsors ask for first.</p>
+    <p><strong>Separate accounts, separate voices.</strong> The men's and women's pages have different questions, different sponsors, and a different narrator each. Keep them as two persona records sharing one policy pack and one source library.</p>
+    <p><strong>Plan for limited ads.</strong> Model this persona on sponsors and telehealth affiliate, never on YouTube ad revenue, and set the altered-content and educational flags on every upload.</p>
+  </div>
+  <div class="callout">
+    <span class="eyebrow">What changes when the audience is Hindi-speaking</span>
+    <p>Roughly 90% of viewers will be in India instead of the 60% the first draft assumed. That cuts every ad line by more than half, moves sponsors and Facebook to the front, and changes the voice stack: Kokoro is weak in Hindi, so narration moves to Sarvam's Bulbul or AI4Bharat's Indic Parler-TTS, with ElevenLabs as the paid fallback. The scenarios in Part 2 use India-weighted rates.</p>
+  </div>
+</section>
+
+<section id="scope">
+  <span class="eyebrow">§3</span>
+  <h2>What the studio produces</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Unit</th><th class="num">Per persona / day</th><th class="num">5 personas / day</th><th class="num">5 personas / month</th><th>Length</th></tr></thead>
+      <tbody>
+        <tr><td>Reels (one file to Instagram, YouTube Shorts, Facebook)</td><td class="num">3.5</td><td class="num">17.5</td><td class="num">525</td><td>30–60 s</td></tr>
+        <tr><td>Feed posts (carousel, 5–7 slides)</td><td class="num">1</td><td class="num">5</td><td class="num">150</td><td>—</td></tr>
+        <tr><td>Stories (image or 15 s clip)</td><td class="num">2–3</td><td class="num">12–15</td><td class="num">375</td><td>≤ 15 s</td></tr>
+        <tr><td>Long-form YouTube (from month 3)</td><td class="num">1 / week</td><td class="num">—</td><td class="num">20</td><td>6–10 min</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="prose">The money model in Part 2 runs at five personas at full cadence, which is the count the roadmap reaches by month four. The two Body Talk pages come after that; each extra persona at full cadence adds about $25 a month of cost and scales the view-driven lines roughly in proportion, while Body Talk's income comes from sponsors rather than ads.</p>
+  <p class="prose">The review queue is about 35 items a day at five personas. The approval screen must show the first frame, the hook, and the QA verdict, and accept one key to approve and one to reject with a note, or the human gate becomes the bottleneck. New accounts ramp from one post a day to full cadence over three weeks; the engine schedules this automatically.</p>
+</section>
+
+<section id="pipeline">
+  <span class="eyebrow">§4</span>
+  <h2>Daily pipeline, per persona</h2>
+  <figure>
+    <div class="diagram">
+    <svg viewBox="0 0 1180 320" role="img" aria-label="Daily pipeline: a cron trigger starts the Planner, which hands topic briefs to the Writer, whose script JSON drives four asset producers (voice, visuals, captions, music), a Remotion renderer, a QA and policy agent, a human approval gate, and a publisher that uploads to Instagram, YouTube and Facebook via a public R2 URL. Nightly analytics flow back into a memory store that the Planner reads the next morning. Rejected items loop from the human gate back to the Writer.">
+      <defs>
+        <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+        </marker>
+      </defs>
+      <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" fill="currentColor">
+        <text x="20" y="60" font-size="11" font-family="IBM Plex Mono, monospace" style="fill:var(--muted)">cron · 05:00 local · per persona</text>
+
+        <polyline points="812,70 812,32 220,32 220,68" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arw)"/>
+        <text x="516" y="27" font-size="11" text-anchor="middle" style="fill:var(--muted)">reject → rewrite with reviewer note</text>
+
+        <g>
+          <rect x="20" y="70" width="104" height="54" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="72" y="92" font-size="13" font-weight="700" text-anchor="middle">Planner</text>
+          <text x="72" y="109" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">idea bank + trends</text>
+        </g>
+        <g>
+          <rect x="168" y="70" width="104" height="54" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="220" y="92" font-size="13" font-weight="700" text-anchor="middle">Writer</text>
+          <text x="220" y="109" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">hook · beats · CTA</text>
+        </g>
+        <g>
+          <rect x="316" y="70" width="104" height="96" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="368" y="90" font-size="13" font-weight="700" text-anchor="middle">Producers</text>
+          <text x="368" y="108" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">voice (Hindi/English TTS)</text>
+          <text x="368" y="123" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">visuals (stock / characters)</text>
+          <text x="368" y="138" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">captions (whisper)</text>
+          <text x="368" y="153" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">music (licensed)</text>
+        </g>
+        <g>
+          <rect x="464" y="70" width="104" height="54" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="516" y="92" font-size="13" font-weight="700" text-anchor="middle">Renderer</text>
+          <text x="516" y="109" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">Remotion · 1080×1920</text>
+        </g>
+        <g>
+          <rect x="612" y="70" width="104" height="54" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="664" y="92" font-size="13" font-weight="700" text-anchor="middle">QA agent</text>
+          <text x="664" y="109" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">policy pack · facts · dupes</text>
+        </g>
+        <g>
+          <rect x="760" y="70" width="104" height="54" rx="3" stroke-width="2" style="fill:var(--gate-bg); stroke:var(--gate)"/>
+          <text x="812" y="92" font-size="13" font-weight="700" text-anchor="middle">Human gate</text>
+          <text x="812" y="109" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">approve in 1 key</text>
+        </g>
+        <g>
+          <rect x="908" y="70" width="104" height="54" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="960" y="92" font-size="13" font-weight="700" text-anchor="middle">Publisher</text>
+          <text x="960" y="109" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">windows + warm-up</text>
+        </g>
+        <g>
+          <rect x="1056" y="48" width="104" height="26" rx="13" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="1108" y="65" font-size="11.5" font-weight="600" text-anchor="middle">Instagram</text>
+          <rect x="1056" y="84" width="104" height="26" rx="13" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="1108" y="101" font-size="11.5" font-weight="600" text-anchor="middle">YouTube</text>
+          <rect x="1056" y="120" width="104" height="26" rx="13" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="1108" y="137" font-size="11.5" font-weight="600" text-anchor="middle">Facebook</text>
+        </g>
+
+        <line x1="124" y1="97" x2="166" y2="97" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="145" y="89" font-size="10" text-anchor="middle" style="fill:var(--muted)">briefs</text>
+        <line x1="272" y1="97" x2="314" y2="97" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="293" y="89" font-size="10" text-anchor="middle" style="fill:var(--muted)">script</text>
+        <line x1="420" y1="97" x2="462" y2="97" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="441" y="89" font-size="10" text-anchor="middle" style="fill:var(--muted)">assets</text>
+        <line x1="568" y1="97" x2="610" y2="97" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="589" y="89" font-size="10" text-anchor="middle" style="fill:var(--muted)">mp4</text>
+        <line x1="716" y1="97" x2="758" y2="97" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="737" y="89" font-size="10" text-anchor="middle" style="fill:var(--muted)">pass</text>
+        <line x1="864" y1="97" x2="906" y2="97" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="885" y="89" font-size="10" text-anchor="middle" style="fill:var(--muted)">approve</text>
+        <line x1="1012" y1="88" x2="1054" y2="62" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <line x1="1012" y1="97" x2="1054" y2="97" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <line x1="1012" y1="106" x2="1054" y2="132" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+
+        <rect x="464" y="160" width="104" height="40" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+        <text x="516" y="178" font-size="12" font-weight="700" text-anchor="middle">Object store</text>
+        <text x="516" y="192" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">R2, public URL</text>
+        <line x1="516" y1="124" x2="516" y2="158" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <polyline points="568,180 960,180 960,126" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="764" y="174" font-size="10" text-anchor="middle" style="fill:var(--muted)">Meta fetches media from a public URL</text>
+
+        <rect x="1056" y="250" width="104" height="40" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+        <text x="1108" y="268" font-size="12" font-weight="700" text-anchor="middle">Analyst</text>
+        <text x="1108" y="282" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">insights, nightly</text>
+        <line x1="1108" y1="146" x2="1108" y2="248" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="1120" y="200" font-size="10" text-anchor="start" style="fill:var(--muted)">views, retention,</text>
+        <text x="1120" y="213" font-size="10" text-anchor="start" style="fill:var(--muted)">saves, clicks</text>
+
+        <rect x="20" y="250" width="104" height="40" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+        <text x="72" y="268" font-size="12" font-weight="700" text-anchor="middle">Memory</text>
+        <text x="72" y="282" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">Postgres, per persona</text>
+        <line x1="1056" y1="270" x2="126" y2="270" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="590" y="263" font-size="10" text-anchor="middle" style="fill:var(--muted)">what worked: hooks, topics, characters, posting times · what died · what got flagged</text>
+        <line x1="72" y1="250" x2="72" y2="126" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw)"/>
+        <text x="80" y="190" font-size="10" text-anchor="start" style="fill:var(--muted)">covered ideas,</text>
+        <text x="80" y="203" font-size="10" text-anchor="start" style="fill:var(--muted)">winning patterns</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>One pipeline, run once per persona per morning, for our personas and for every customer's. The amber box is the only place a human touches it. Rejections carry the reviewer's note back to the Writer so the second draft is not a re-roll.</figcaption>
+  </figure>
+
+  <ol class="steps">
+    <li><strong>Trigger</strong><span>A BullMQ repeatable job per persona at 05:00 in the persona's timezone. Customers' personas are just more rows in the same queue.</span></li>
+    <li><strong>Planner agent</strong><span>Reads the persona's idea bank and memory (covered ideas, hooks that worked, dead formats), pulls fresh inputs (RSS, trends, the Hindu calendar for Bhakti, product launches for AI Tools), and emits 3–4 briefs with an angle and sources. For Kahani it also reads the story bible: characters, arcs, last episode's cliffhanger.</span></li>
+    <li><strong>Writer agent</strong><span>Turns each brief into strict-JSON: hook (first 2 seconds), 4–7 beats each with a visual cue, CTA, caption, hashtags, carousel and story variants. Writes in the persona's language and register.</span></li>
+    <li><strong>Producers</strong><span>Parallel workers: Hindi or English TTS; a visuals worker choosing stock clips, generating stills, or rendering the persona's recurring characters from reference images; whisper for word-level timestamps; a licensed-music picker. Each output is a file with a manifest line.</span></li>
+    <li><strong>Renderer</strong><span>Remotion composes the manifest into a 1080×1920 MP4 with animated captions, motion on stills, beat-synced cuts, and the persona's template. Post and story stills are frames from the same composition.</span></li>
+    <li><strong>QA agent</strong><span>Fresh context, adversarial prompt. Checks the category policy pack (religion: no claims of divine endorsement, no sectarian content; health: no dosing, no cures; intimate health: clinical terms, diagrams only, doctor line, nothing for minors; finance: no returns promised), facts against the brief's sources, similarity to the last 30 days, and sets the YouTube altered-content flag.</span></li>
+    <li><strong>Human gate</strong><span>Keyboard-driven queue per workspace. First frame, hook, QA verdict. Approve, or reject with a note that goes back to the Writer.</span></li>
+    <li><strong>Publisher</strong><span>Uploads to R2, creates Instagram and Facebook media containers from the public URL, uploads the YouTube Short with disclosure set, posts carousel and stories at the persona's windows. Respects the warm-up ramp and per-account daily caps. Retries with backoff; stores platform IDs.</span></li>
+    <li><strong>Analyst</strong><span>Nightly pull from Instagram Insights, YouTube Analytics and Facebook Page Insights. Writes metric rows and a one-paragraph note per persona the Planner reads next morning. Runs on the half-price batch endpoint.</span></li>
+  </ol>
+</section>
+
+<section id="onboarding">
+  <span class="eyebrow">§5</span>
+  <h2>Onboarding a topic in under ten minutes</h2>
+  <p class="prose">This is the product. Everything a customer does to go from "I have an idea" to "content is waiting for my review" is below, with a time budget per step. The same flow is how we add our own personas.</p>
+  <figure>
+    <div class="diagram">
+    <svg viewBox="0 0 1180 150" role="img" aria-label="Onboarding flow in six steps: type a topic (30 seconds), the Persona Architect proposes three angles and thirty ideas (60 seconds), pick and tune voice and look (2 minutes), connect accounts or stay in draft mode (3 minutes), cadence and warm-up are set automatically (30 seconds), and the first day's queue is generated (3 minutes). Total under ten minutes.">
+      <defs>
+        <marker id="arw2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+        </marker>
+      </defs>
+      <g font-family="IBM Plex Sans, Helvetica, Arial, sans-serif" fill="currentColor">
+        <g>
+          <rect x="20" y="40" width="150" height="64" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="95" y="64" font-size="13" font-weight="700" text-anchor="middle">Type a topic</text>
+          <text x="95" y="82" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">one sentence, any language</text>
+        </g>
+        <g>
+          <rect x="210" y="40" width="150" height="64" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="285" y="64" font-size="13" font-weight="700" text-anchor="middle">Persona Architect</text>
+          <text x="285" y="82" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">3 angles · 30 ideas · policy pack</text>
+        </g>
+        <g>
+          <rect x="400" y="40" width="150" height="64" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="475" y="64" font-size="13" font-weight="700" text-anchor="middle">Pick and tune</text>
+          <text x="475" y="82" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">voice + look presets, 10 s preview</text>
+        </g>
+        <g>
+          <rect x="590" y="40" width="150" height="64" rx="3" stroke-width="2" style="fill:var(--gate-bg); stroke:var(--gate)"/>
+          <text x="665" y="64" font-size="13" font-weight="700" text-anchor="middle">Connect accounts</text>
+          <text x="665" y="82" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">OAuth, or stay in draft mode</text>
+        </g>
+        <g>
+          <rect x="780" y="40" width="150" height="64" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="855" y="64" font-size="13" font-weight="700" text-anchor="middle">Cadence + warm-up</text>
+          <text x="855" y="82" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">set automatically, editable</text>
+        </g>
+        <g>
+          <rect x="970" y="40" width="150" height="64" rx="3" stroke="currentColor" stroke-width="1.5" style="fill:var(--surface)"/>
+          <text x="1045" y="64" font-size="13" font-weight="700" text-anchor="middle">Day 1 queue</text>
+          <text x="1045" y="82" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">3 reels ready to review</text>
+        </g>
+        <line x1="170" y1="72" x2="208" y2="72" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <text x="189" y="62" font-size="10" text-anchor="middle" style="fill:var(--muted)">30 s</text>
+        <line x1="360" y1="72" x2="398" y2="72" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <text x="379" y="62" font-size="10" text-anchor="middle" style="fill:var(--muted)">60 s</text>
+        <line x1="550" y1="72" x2="588" y2="72" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <text x="569" y="62" font-size="10" text-anchor="middle" style="fill:var(--muted)">2 min</text>
+        <line x1="740" y1="72" x2="778" y2="72" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <text x="759" y="62" font-size="10" text-anchor="middle" style="fill:var(--muted)">3 min</text>
+        <line x1="930" y1="72" x2="968" y2="72" stroke="currentColor" stroke-width="1.5" marker-end="url(#arw2)"/>
+        <text x="949" y="62" font-size="10" text-anchor="middle" style="fill:var(--muted)">30 s</text>
+        <text x="1045" y="128" font-size="10.5" text-anchor="middle" style="fill:var(--muted)">renders in ~3 min while they connect accounts</text>
+        <text x="20" y="128" font-size="11" font-family="IBM Plex Mono, monospace" style="fill:var(--muted)">total: under 10 minutes, no engineer</text>
+      </g>
+    </svg>
+    </div>
+    <figcaption>The amber step is the only one that can block, because it depends on the customer's accounts and Meta's review of ours. Draft mode makes it skippable: the persona runs, renders, and queues; the customer downloads files and posts by hand until accounts connect.</figcaption>
+  </figure>
+
+  <h3>What "hassle-free" means, concretely</h3>
+  <ul class="prose">
+    <li><strong>One input.</strong> A sentence like "Hindi reels about yoga for people with desk jobs." Optional: a link to a channel they admire, which the Architect uses only for format, never for content.</li>
+    <li><strong>The Architect does the thinking.</strong> It returns three persona angles (name, tone, target viewer, format), thirty ranked ideas with hooks, a suggested voice and look, an affiliate list, and the policy pack it detected (health, in this example). The customer picks, they do not configure.</li>
+    <li><strong>Presets, not settings.</strong> Eight voices per language, six visual templates, four music moods. Each with a 10-second preview rendered from the customer's own first idea.</li>
+    <li><strong>Accounts are optional to start.</strong> Draft mode ships every file to a download page. Connect later and the queue starts publishing.</li>
+    <li><strong>The idea bank refills itself.</strong> Thirty ideas seed the Planner; every night the Analyst tops the bank back up to thirty based on what worked. The customer can add, star, or kill ideas from a list.</li>
+    <li><strong>Guardrails are applied, not chosen.</strong> The policy pack is attached at onboarding and enforced by the QA agent. Customers see it, and can tighten it, but cannot remove it.</li>
+  </ul>
+</section>
+
+<section id="agents">
+  <span class="eyebrow">§6</span>
+  <h2>Agents are config, not code</h2>
+  <div class="prose">
+    <p>The Bhakti persona and a customer's "desk yoga" persona are the same six prompts and the same pipeline with a different persona record loaded. That is what makes topic onboarding a form instead of a project. A persona record looks like this:</p>
+  </div>
+<pre><code>{
+  "id": "kahani",
+  "workspace": "studio",
+  "language": "hi",
+  "accounts": { "instagram": "ig-business-id", "youtube": "UC…", "facebook": "page-id" },
+  "voice":    { "engine": "sarvam-bulbul", "id": "meera", "speed": 1.0 },
+  "look":     { "template": "story-frames-v1", "palette": ["#101010", "#F6C453"], "music": "cinematic" },
+  "editorial": {
+    "tone": "warm narrator, short sentences, one twist per episode",
+    "story_bible": { "characters": ["Rohan", "Dadi", "Chintu"], "arc": "…", "last_cliffhanger": "…" },
+    "policy_pack": "general",
+    "banned": ["real brand names", "politics", "religion as plot device"],
+    "disclosure": { "youtube_altered_content": true }
+  },
+  "idea_bank": { "target": 30, "starred": ["…"], "killed": ["…"] },
+  "cadence":  { "reels": 3, "posts": 1, "stories": 2, "windows_local": ["07:30", "13:00", "19:30"], "ramp_days": 21 },
+  "monetization": { "affiliate": [], "cta_every_n_reels": 5, "product": null },
+  "gate": { "mode": "human", "auto_publish_after_days": 90, "auto_publish_min_approval": 0.9 }
+}</code></pre>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Agent</th><th>Model call</th><th>Reads</th><th>Writes</th><th>Why it is separate</th></tr></thead>
+      <tbody>
+        <tr><td>Persona Architect</td><td>Claude Opus 5, adaptive thinking, web search tool, structured output</td><td>topic sentence, optional reference channel, policy pack library</td><td>3 persona drafts, 30 ideas, policy pack id</td><td>Runs once at onboarding. Quality here decides whether the customer's first day impresses them.</td></tr>
+        <tr><td>Planner</td><td>Claude Opus 5, adaptive thinking</td><td>idea bank, memory, feeds, yesterday's Analyst note, story bible</td><td>3–4 briefs (JSON)</td><td>Topic choice is where channels die. Keep it deliberate and inspectable.</td></tr>
+        <tr><td>Writer</td><td>Claude Opus 5, structured output</td><td>brief, persona editorial</td><td>script JSON</td><td>Voice consistency lives here. One prompt per persona style, versioned.</td></tr>
+        <tr><td>Producers</td><td>No LLM (TTS, stock, image gen, whisper)</td><td>script</td><td>files + manifest</td><td>Deterministic and cacheable. Rerun one worker without redoing the rest.</td></tr>
+        <tr><td>QA</td><td>Claude Opus 5, policy pack checklist, different prompt from the Writer</td><td>script, sources, last 30 days</td><td>pass/fail + reasons</td><td>A model checking its own draft in the same context is worthless. Fresh context, adversarial prompt.</td></tr>
+        <tr><td>Analyst</td><td>Claude Opus 5, batch API</td><td>platform metrics</td><td>metric rows, daily note, idea bank top-up</td><td>Runs overnight; latency irrelevant, so use the half-price batch endpoint.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="fine prose">Everything is priced at Opus 5. QA and Analyst are the first candidates for Sonnet 5 once there is an approval-rate baseline to measure against. Persona prompts sit in a cached prefix so the per-run cost is mostly output tokens.</p>
+</section>
+
+<section id="platform">
+  <span class="eyebrow">§7</span>
+  <h2>The platform underneath</h2>
+  <p class="prose">What has to exist so that a stranger can sign up, onboard a topic, connect accounts, be billed, and never see our other customers' data. This is the part the first draft did not have.</p>
+
+  <h3>Services</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Service</th><th>Does</th><th>Built with</th></tr></thead>
+      <tbody>
+        <tr><td>Web app</td><td>Onboarding wizard, review queue, idea bank, persona settings, analytics, billing pages</td><td>Next.js, Auth.js (Google + email magic link), Tailwind</td></tr>
+        <tr><td>API</td><td>Persona CRUD, queue actions, webhooks from Meta and Google, usage metering</td><td>Next.js route handlers or a small Fastify service; Zod schemas shared with the workers</td></tr>
+        <tr><td>Orchestrator</td><td>Per-persona daily job, fan-out to producer jobs, retries, dead-letter queue</td><td>BullMQ on Redis; one queue per stage, concurrency per stage</td></tr>
+        <tr><td>Agent workers</td><td>Architect, Planner, Writer, QA, Analyst calls with prompt caching and structured output</td><td>TypeScript, Anthropic SDK</td></tr>
+        <tr><td>Producer workers</td><td>TTS, stock search, image and character generation, whisper timestamps, music pick</td><td>TypeScript wrappers; whisper.cpp binary; Sarvam, Pexels, Replicate clients</td></tr>
+        <tr><td>Render workers</td><td>Remotion renders; scale by adding machines</td><td>Remotion CLI in a container; CPU boxes, GPU not required</td></tr>
+        <tr><td>Publisher</td><td>Instagram, Facebook, YouTube publishing with per-account caps, warm-up, token refresh</td><td>Graph API and YouTube Data API clients; tokens encrypted at rest</td></tr>
+        <tr><td>Storage</td><td>Renders, stills, manifests; public URLs for Meta to fetch; lifecycle delete after publish</td><td>Cloudflare R2</td></tr>
+        <tr><td>Database</td><td>All state, multi-tenant by workspace id on every row</td><td>Postgres (Neon or self-hosted), Drizzle</td></tr>
+        <tr><td>Billing</td><td>Plans, per-persona metering, invoices</td><td>Razorpay for India, Stripe for everyone else; usage events written by the orchestrator</td></tr>
+        <tr><td>Observability</td><td>Per-run traces, cost per reel, failure alerts</td><td>OpenTelemetry to a hosted collector; a cost column on every job</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Data model</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Table</th><th>Key fields</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>workspace</td><td>id, plan, billing_customer_id, region</td><td>Tenant boundary. Every other table carries workspace_id.</td></tr>
+        <tr><td>user, membership</td><td>user_id, workspace_id, role (owner, reviewer)</td><td>Reviewers can approve; owners can change personas and billing.</td></tr>
+        <tr><td>persona</td><td>id, workspace_id, config (jsonb), status, gate_mode</td><td>The record shown in §6. Versioned on every edit.</td></tr>
+        <tr><td>account</td><td>persona_id, platform, external_id, token_ciphertext, expires_at, daily_cap, ramp_started_at</td><td>Instagram long-lived tokens expire in 60 days; YouTube uses refresh tokens. A refresh job runs daily.</td></tr>
+        <tr><td>idea</td><td>persona_id, text, hook, score, state (open, starred, used, killed)</td><td>The idea bank. Topped up nightly to the target.</td></tr>
+        <tr><td>run</td><td>persona_id, date, status, cost_cents</td><td>One per persona per day. Parent of everything below.</td></tr>
+        <tr><td>brief, script</td><td>run_id, idea_id, json, version, qa_verdict</td><td>Script versions survive rejections so the reviewer's note is attached to the next draft.</td></tr>
+        <tr><td>asset</td><td>script_id, kind (voice, clip, still, captions, music), url, license, source</td><td>License line is mandatory; the renderer refuses assets without one.</td></tr>
+        <tr><td>render</td><td>script_id, format (reel, post, story), url, duration, checksum</td><td></td></tr>
+        <tr><td>review</td><td>render_id, user_id, decision, note, decided_at</td><td>Approval rate per persona is computed from here and drives auto-publish eligibility.</td></tr>
+        <tr><td>publication</td><td>render_id, account_id, scheduled_at, published_at, platform_media_id, error</td><td>Retries reference this row; caps are enforced by counting rows per account per day.</td></tr>
+        <tr><td>metric</td><td>publication_id, captured_at, views, watch_pct, saves, shares, clicks</td><td>Time series; the Analyst reads the last 30 days.</td></tr>
+        <tr><td>usage_event</td><td>workspace_id, kind (reel, long_form, tts_chars, image), quantity, cost_cents</td><td>Feeds billing and the per-reel cost dashboard.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Tenancy, security, compliance</h3>
+  <ul class="prose">
+    <li><strong>Isolation:</strong> workspace_id on every row, enforced in the query layer; per-workspace R2 prefixes; queue jobs carry the workspace id and the worker re-checks it.</li>
+    <li><strong>Tokens:</strong> encrypted with a per-workspace key; never logged; revocable from the UI; a nightly refresh job for Instagram long-lived tokens and YouTube refresh tokens.</li>
+    <li><strong>Platform access as a product:</strong> Meta Business Verification and App Review for <code>instagram_content_publish</code>, <code>pages_manage_posts</code>, and insights permissions, demonstrated with a real customer flow; YouTube API compliance audit and a quota increase request, since one Google project serves every customer's uploads. Both submitted in week zero.</li>
+    <li><strong>Disclosure:</strong> altered-content flag set on every YouTube upload; a per-persona disclosure line in captions where the policy pack requires it.</li>
+    <li><strong>Data protection:</strong> India's DPDP Act applies to customer data; keep the data inventory short, delete renders after publish, and offer workspace deletion in one click.</li>
+    <li><strong>Abuse:</strong> the policy packs are also our defence. A customer cannot onboard a persona that impersonates a real person or organisation, and the QA agent blocks it at script level.</li>
+  </ul>
+</section>
+
+<section id="tools">
+  <span class="eyebrow">§8</span>
+  <h2>Build vs buy, stage by stage</h2>
+  <p class="prose">Tags: <span class="tag build">build</span> you write it, <span class="tag free">free</span> open source or free tier you run, <span class="tag buy">buy</span> pay per use. Prices are list prices as of September 2026 and will drift.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stage</th><th>Paid route</th><th>Self-run route</th><th>Recommendation</th></tr></thead>
+      <tbody>
+        <tr><td>Architect, Planner, Writer, QA, Analyst</td><td>Claude API, Opus 5 at $5 in / $25 out per million tokens. About $0.10 per reel across passes, half on the batch endpoint, less with cached persona prompts.</td><td>Local open models. Script quality is the product; not worth it.</td><td class="rec"><span class="tag buy">buy</span> Claude API, ~$10 per persona per month</td></tr>
+        <tr><td>Narration, Hindi</td><td>Sarvam Bulbul (Indian voices, pay per character), ElevenLabs (good Hindi, $99 Pro tier at our volume).</td><td>AI4Bharat Indic Parler-TTS (open source, needs a GPU box).</td><td class="rec"><span class="tag buy">buy</span> Sarvam per character; Indic Parler on a rented GPU once volume justifies it</td></tr>
+        <tr><td>Narration, English</td><td>ElevenLabs, OpenAI TTS.</td><td>Kokoro-82M (Apache-2.0), runs on CPU, near-ElevenLabs quality for narration.</td><td class="rec"><span class="tag free">free</span> Kokoro</td></tr>
+        <tr><td>Visuals, general</td><td>Generated video (Kling, Runway, Veo) at $0.05–0.75 per second. Image gen via Replicate (Flux) ≈ $0.003 per image.</td><td>Pexels and Pixabay APIs for stock; Flux locally on Apple silicon.</td><td class="rec"><span class="tag free">free</span> stock plus generated stills with motion</td></tr>
+        <tr><td>Visuals, recurring characters (Kahani, Comedy)</td><td>Reference-conditioned image models (Flux Kontext, Kling Elements) to keep a character consistent across frames.</td><td>A small LoRA per character on Flux, trained once from 20 reference images.</td><td class="rec"><span class="tag build">build</span> one LoRA per character; ≈ $5 to train, then stills at $0.003</td></tr>
+        <tr><td>Visuals, Bhakti</td><td>—</td><td>Commissioned or generated stylised art, reviewed once and reused as a persona asset library. Never scraped temple photos.</td><td class="rec"><span class="tag build">build</span> a curated library per deity and festival</td></tr>
+        <tr><td>Captions with word timing</td><td>Descript, CapCut Pro (no API).</td><td>whisper.cpp on the narration file; Hindi works with the large model.</td><td class="rec"><span class="tag free">free</span> whisper.cpp</td></tr>
+        <tr><td>Composition</td><td>Creatomate, Shotstack ($50–150/mo).</td><td>Remotion (React). Free under four people; a company licence once the product has staff.</td><td class="rec"><span class="tag build">build</span> Remotion templates, six presets</td></tr>
+        <tr><td>Music</td><td>Epidemic Sound $15/mo, Suno $10/mo.</td><td>YouTube Audio Library and Pixabay Music, license line stored per asset.</td><td class="rec"><span class="tag free">free</span> libraries; for Bhakti, commission original instrumentals once</td></tr>
+        <tr><td>Publishing</td><td>Buffer, Later, Metricool: $15–60/mo and they still need the same Meta approvals.</td><td>Instagram and Facebook via the Graph API, YouTube via the Data API. About 400 lines of TypeScript. Postiz (AGPL) as a reference implementation.</td><td class="rec"><span class="tag build">build</span> direct API clients</td></tr>
+        <tr><td>Orchestration</td><td>n8n cloud, Trigger.dev cloud, Inngest ($25–100/mo at volume).</td><td>BullMQ on Redis; Trigger.dev self-hosted if you want run history for free.</td><td class="rec"><span class="tag build">build</span> BullMQ</td></tr>
+        <tr><td>Review queue, onboarding wizard, idea bank</td><td>Nothing fits this shape.</td><td>Next.js.</td><td class="rec"><span class="tag build">build</span></td></tr>
+        <tr><td>Auth and billing</td><td>Clerk ($25+/mo), Stripe and Razorpay (per transaction).</td><td>Auth.js; Razorpay and Stripe SDKs.</td><td class="rec"><span class="tag free">free</span> Auth.js, <span class="tag buy">buy</span> payment fees only</td></tr>
+        <tr><td>Storage</td><td>S3 with egress fees.</td><td>Cloudflare R2: 10 GB free, zero egress.</td><td class="rec"><span class="tag free">free</span> R2, delete after publish</td></tr>
+        <tr><td>Analytics</td><td>Metricool, Sprout ($100+/mo).</td><td>Platform insight APIs into Postgres; a Next.js page on top.</td><td class="rec"><span class="tag build">build</span></td></tr>
+        <tr><td>Compute</td><td>—</td><td>Hetzner CPX41 for app, Postgres, Redis (≈ $30); a second CPX41 for renders (≈ $30). Add render boxes per 10 customer personas.</td><td class="rec"><span class="tag buy">buy</span> two VPS to start</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="costs">
+  <span class="eyebrow">§9</span>
+  <h2>Costs</h2>
+  <h3>Per persona per month at full cadence (105 reels, 30 posts, 75 stories)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Line</th><th class="num">USD</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Claude API, all agents</td><td class="num">10</td><td>Cached persona prefix, batch for Analyst</td></tr>
+        <tr><td>Hindi TTS (Sarvam), ≈ 70k characters</td><td class="num">6</td><td>Estimate; Kokoro makes English personas $0</td></tr>
+        <tr><td>Images, ≈ 600 stills</td><td class="num">2</td><td>Flux on Replicate</td></tr>
+        <tr><td>Render compute share</td><td class="num">6</td><td>≈ 4 hours of CPU per persona per month</td></tr>
+        <tr><td>Storage and egress</td><td class="num">1</td><td>R2 with lifecycle delete</td></tr>
+      </tbody>
+      <tfoot><tr><td>Variable cost per persona</td><td class="num">≈ 25</td><td>≈ ₹2,100. This is the floor for product pricing.</td></tr></tfoot>
+    </table>
+  </div>
+  <h3>Our studio, five personas</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Line</th><th class="num">Build-first (USD)</th><th class="num">Buy-everything (USD)</th></tr></thead>
+      <tbody>
+        <tr><td>Variable cost, 5 personas</td><td class="num">125</td><td class="num">125</td></tr>
+        <tr><td>ElevenLabs instead of Sarvam and Kokoro</td><td class="num">0</td><td class="num">99</td></tr>
+        <tr><td>Generated video hero clips (Kling), two per reel</td><td class="num">0</td><td class="num">550</td></tr>
+        <tr><td>Creatomate, Epidemic, Metricool, n8n cloud, Canva</td><td class="num">0</td><td class="num">190</td></tr>
+        <tr><td>Two VPS, Redis, Postgres</td><td class="num">60</td><td class="num">60</td></tr>
+        <tr><td>Domain, email, observability</td><td class="num">15</td><td class="num">15</td></tr>
+      </tbody>
+      <tfoot><tr><td>Total per month</td><td class="num">≈ 200</td><td class="num">≈ 1,040</td></tr></tfoot>
+    </table>
+  </div>
+  <p class="prose fine">Not on the table: your time. About eight weeks to a working studio with three personas, another six to eight to the product layer, then roughly 30 minutes a day of review for our personas.</p>
+</section>
+
+<section id="roadmap">
+  <span class="eyebrow">§10</span>
+  <h2>Roadmap</h2>
+  <ul class="timeline">
+    <li><span class="when">Week 0</span><div><strong>Paperwork before code</strong>Business accounts and linked Pages for Bhakti, AI Tools and Kahani. Meta app: Business Verification and App Review for publishing and insights. Google Cloud project: Data API, OAuth consent, compliance audit. All three clocks start now.</div></li>
+    <li><span class="when">Weeks 1–2</span><div><strong>One persona end to end, manual upload</strong>Start with AI Tools: Planner and Writer prompts, Kokoro narration, whisper captions, one Remotion template, files on disk. Post one reel a day by hand and watch retention.</div></li>
+    <li><span class="when">Weeks 3–4</span><div><strong>Queue, publisher, second and third personas</strong>Approval UI, R2, Instagram and Facebook publish, YouTube upload (private until the audit clears). Add Kahani and Bhakti as config only, with Sarvam narration and the religion policy pack. If a new persona takes more than a day, the abstraction is wrong.</div></li>
+    <li><span class="when">Month 2</span><div><strong>Close the loop</strong>QA agent, Analyst, memory, idea-bank top-up. Ramp all accounts to full cadence. Add Fitness &amp; Yoga. Comedy only if you have a character and a week of original jokes.</div></li>
+    <li><span class="when">Month 3</span><div><strong>Monetization layer</strong>Weekly long-form per persona. Affiliate links in bios, pinned comments, descriptions. Facebook Page monetization application for Bhakti. First day-60 kill-or-keep decisions. Add the two Body Talk pages once a medical reviewer has agreed to be credited; they start at one reel a day.</div></li>
+    <li><span class="when">Months 4–5</span><div><strong>Product layer</strong>Workspaces, Auth.js, the Persona Architect, the onboarding wizard with presets and previews, draft mode, Razorpay and Stripe, usage metering. Re-run our own personas through the wizard as the acceptance test.</div></li>
+    <li><span class="when">Month 6</span><div><strong>Private beta</strong>Ten creators recruited from our own channels' audiences. Free for 30 days in exchange for weekly calls. Meta App Review resubmitted with real customer flows if the first pass was scoped to us.</div></li>
+    <li><span class="when">Month 7+</span><div><strong>Paid launch</strong>Pricing from §14. Our studio channels are the marketing: every long-form video ends with "made with the engine you can use".</div></li>
+  </ul>
+</section>
+
+<section id="risks">
+  <span class="eyebrow">§11</span>
+  <h2>Risks and how the design answers them</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Risk</th><th>Likelihood</th><th>Mitigation built into the product</th></tr></thead>
+      <tbody>
+        <tr><td>Channel-level inauthentic-content demonetization on YouTube, reach cuts on Instagram</td><td>High if ignored</td><td>Original characters and writing, distinct template per persona, 30-day similarity check, never the same reel across personas, human gate, long-form originals, disclosure set.</td></tr>
+        <tr><td>Devotional content offends or gets flagged</td><td>Medium</td><td>Religion policy pack: no claims of divine endorsement, no sectarian comparison, curated art library reviewed by a human once, no bhajan audio without a licence.</td></tr>
+        <tr><td>Fitness or Yoga reads as medical advice</td><td>Medium</td><td>Health pack: no dosing, no cures, no before/after bodies, "consult a professional" line, sources on screen.</td></tr>
+        <tr><td>Body Talk pages age-restricted, removed as sexual content, or flagged as an AI medical authority</td><td>High</td><td>Intimate-health pack enforced by QA; a credited human medical reviewer; diagrams only; educational framing in the first two seconds; income modelled on sponsors, not ads; the persona pauses on the first warning rather than the first strike.</td></tr>
+        <tr><td>Comedy persona drifts into copied jokes</td><td>High</td><td>QA similarity check against a corpus of common Hindi jokes; the persona is killed if originality fails twice.</td></tr>
+        <tr><td>Customers onboard a persona that impersonates someone or violates policy</td><td>Medium</td><td>Architect refuses impersonation at onboarding; policy packs cannot be removed; QA blocks at script level; we can suspend a workspace.</td></tr>
+        <tr><td>New accounts flagged as spam by cadence</td><td>Medium</td><td>Automatic three-week ramp, jittered windows, no engagement automation.</td></tr>
+        <tr><td>Meta App Review or Business Verification delayed or rejected</td><td>Medium</td><td>Submit week 0; draft mode means every persona still runs; resubmit with real customer flows at beta.</td></tr>
+        <tr><td>YouTube uploads locked private until audit</td><td>Certain at first</td><td>Manual upload from the review UI in month one; API once audited.</td></tr>
+        <tr><td>One Google project's quota shared across all customers</td><td>Certain at scale</td><td>Quota increase request after audit; a second project per 50 personas.</td></tr>
+        <tr><td>Character consistency in Kahani breaks and the story looks like a different cast each day</td><td>Medium</td><td>One LoRA per character, fixed seeds per scene type, a "cast sheet" the reviewer sees on every episode.</td></tr>
+        <tr><td>Building the product before the studio proves the engine</td><td>High</td><td>The roadmap puts the product layer in month four, after day-60 and day-90 data exist.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================ BRD ============================ -->
+<div class="part-head">
+  <span class="eyebrow">Part 2 of 2</span>
+  <h2>Business requirements</h2>
+</div>
+
+<section id="streams">
+  <span class="eyebrow">§12</span>
+  <h2>Where money comes from, per platform, for a Hindi-first audience</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stream</th><th>Platform</th><th>Gate to unlock</th><th>Rate assumption used below</th><th>Weight</th></tr></thead>
+      <tbody>
+        <tr><td>Sponsored reels</td><td>All three</td><td>Practically 50k+ followers on a page; astrology, fantasy gaming, fintech, edtech, men's wellness and femtech brands buy heavily in India</td><td>₹15,000 (≈ $180) per deal at our stage</td><td>Primary</td></tr>
+        <tr><td>Affiliate and CPA</td><td>All three (bio link, pinned comment, description)</td><td>None</td><td>One conversion per 10,000 views, $4 average payout (astrology-app installs, puja products, SaaS, fitness gear)</td><td>Primary</td></tr>
+        <tr><td>Long-form ads</td><td>YouTube</td><td>Partner Program: 1,000 subscribers and 4,000 watch hours in 12 months</td><td>India ≈ $1.00 per 1k views, US ≈ $5; blended $1.40 at 90/10</td><td>Secondary</td></tr>
+        <tr><td>Shorts ads</td><td>YouTube</td><td>Partner Program via 10M Shorts views in 90 days (20M from Feb 2027), or the long-form route</td><td>India $0.03, US $0.20; blended $0.047</td><td>Bonus</td></tr>
+        <tr><td>Facebook Reels and in-stream ads</td><td>Facebook</td><td>Page monetization eligibility; India included, selective</td><td>$0.02 per 1k Facebook views, on half of reel views</td><td>Secondary for Bhakti</td></tr>
+        <tr><td>Instagram ads, gifts, bonuses</td><td>Instagram</td><td>Eligibility-based; the old Reels bonus is invite-only</td><td>$0</td><td>Ignore</td></tr>
+        <tr><td>Memberships, digital products</td><td>YouTube, own site</td><td>Partner Program for memberships; none for products</td><td>Not modelled; upside for Fitness (plans) and Kahani (early episodes)</td><td>Later</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="scenarios">
+  <span class="eyebrow">§13</span>
+  <h2>Studio income, twelve months, India-weighted</h2>
+  <p class="prose">Five personas at full volume: 525 reels and 20 long-form videos a month, 90% Indian audience. The scenarios differ only in average views per item and how soon channels clear the Partner Program. Mass-appeal Hindi topics justify higher view assumptions than the first draft, and the per-view rates are lower. Every number is a placeholder for day-30 data.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Assumption</th><th class="num">Conservative</th><th class="num">Base</th><th class="num">Optimistic</th></tr></thead>
+      <tbody>
+        <tr><td>Avg views per reel, months 1–3 / 4–6 / 7–12</td><td class="num">2k / 6k / 15k</td><td class="num">5k / 20k / 60k</td><td class="num">15k / 60k / 150k</td></tr>
+        <tr><td>Avg views per long-form, same phases</td><td class="num">1k / 3k / 8k</td><td class="num">2k / 8k / 25k</td><td class="num">5k / 20k / 60k</td></tr>
+        <tr><td>Partner Program reached</td><td class="num">2 channels, month 10</td><td class="num">2 in month 5, all by month 8</td><td class="num">all by month 5</td></tr>
+        <tr><td>Sponsored reels per month, phases 1 / 2 / 3</td><td class="num">0 / 0 / 1</td><td class="num">0 / 1 / 3</td><td class="num">1 / 4 / 8</td></tr>
+        <tr><td>Facebook ads</td><td class="num">0</td><td class="num">$0.02 per 1k</td><td class="num">$0.02 per 1k</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure>
+    <div class="legend" aria-hidden="true">
+      <span style="--sw:var(--c1)">Conservative</span>
+      <span style="--sw:var(--c2)">Base</span>
+      <span style="--sw:var(--c3)">Optimistic</span>
+    </div>
+    <div class="chart-wrap">
+      <svg id="chart" viewBox="0 0 720 300" role="img" aria-label="Monthly studio income run-rate in US dollars by phase and scenario. Months 1 to 3: conservative 45, base 130, optimistic 580. Months 4 to 6: conservative 130, base 900, optimistic 3,670. Months 7 to 12: conservative 620, base 4,100, optimistic 10,800."></svg>
+      <div class="tip" id="tip"></div>
+    </div>
+    <figcaption>Monthly studio income run-rate (USD, all streams) by phase. Base bars are labelled; hover any bar for its value. The spread is almost entirely average views per reel, which is a quality problem, not a volume problem.</figcaption>
+  </figure>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Monthly run-rate, USD</th><th class="num">Months 1–3</th><th class="num">Months 4–6</th><th class="num">Months 7–12</th><th class="num">12-month total</th></tr></thead>
+      <tbody>
+        <tr><td>Conservative</td><td class="num">45</td><td class="num">130</td><td class="num">620</td><td class="num">≈ 4,250</td></tr>
+        <tr><td>Base</td><td class="num">130</td><td class="num">900</td><td class="num">4,100</td><td class="num">≈ 27,700</td></tr>
+        <tr><td>Optimistic</td><td class="num">580</td><td class="num">3,670</td><td class="num">10,800</td><td class="num">≈ 77,500</td></tr>
+        <tr><td>Run cost, build-first</td><td class="num">200</td><td class="num">200</td><td class="num">200</td><td class="num">≈ 2,400</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>How the base case splits in months 7–12</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Stream</th><th>Volume</th><th class="num">USD / month</th><th class="num">Share</th></tr></thead>
+      <tbody>
+        <tr><td>Shorts ads</td><td>31.5M views × $0.047, 90% of channels eligible</td><td class="num">1,330</td><td class="num">32%</td></tr>
+        <tr><td>Affiliate and CPA</td><td>32M views × 0.01% × $4</td><td class="num">1,280</td><td class="num">31%</td></tr>
+        <tr><td>Long-form ads</td><td>500k views × $1.40, same eligibility</td><td class="num">630</td><td class="num">15%</td></tr>
+        <tr><td>Sponsored reels</td><td>3 × $180</td><td class="num">540</td><td class="num">13%</td></tr>
+        <tr><td>Facebook ads</td><td>15.75M views × $0.02</td><td class="num">315</td><td class="num">8%</td></tr>
+      </tbody>
+      <tfoot><tr><td>Total</td><td></td><td class="num">≈ 4,100</td><td class="num">100%</td></tr></tfoot>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Compared with the first draft, the total is about the same but the shape is different: the Hindi lineup needs roughly twice the views to earn the same money, and sponsors plus affiliate carry 44% of it. Long-form still earns 15% of income on 2% of views, so the weekly long-form video stays the most valuable single item.</p>
+    <p>Break-even on cash cost lands in month five in the base case and month eleven in the conservative case, before counting your time. The conservative case pays under ₹300 an hour for the review work, which is the honest signal to stop at the day-90 gate if the numbers look like that.</p>
+  </div>
+</section>
+
+<section id="saas">
+  <span class="eyebrow">§14</span>
+  <h2>Product revenue</h2>
+  <p class="prose">The studio is the proof and the marketing. The product is where the business scales, because a customer's persona costs us about $25 a month to run and we do not depend on their views at all. Pricing is set from that floor.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Plan</th><th class="num">Price / month</th><th>Includes</th><th class="num">Our cost</th><th class="num">Gross margin</th></tr></thead>
+      <tbody>
+        <tr><td>Starter</td><td class="num">₹1,999 (≈ $24)</td><td>1 persona, 1 reel + 1 story a day, draft mode or connected, human gate</td><td class="num">≈ $9</td><td class="num">≈ 62%</td></tr>
+        <tr><td>Creator</td><td class="num">₹4,999 (≈ $60)</td><td>2 personas, 3 reels + post + stories a day, analytics loop, idea bank</td><td class="num">≈ $45</td><td class="num">≈ 25% at full use, ≈ 55% at typical use</td></tr>
+        <tr><td>Studio</td><td class="num">₹14,999 (≈ $180)</td><td>5 personas, full cadence, long-form weekly, reviewer seats, auto-publish once earned</td><td class="num">≈ $125</td><td class="num">≈ 30% at full use, ≈ 60% at typical use</td></tr>
+        <tr><td>Overage</td><td class="num">₹25 per extra reel</td><td>Metered from usage events</td><td class="num">≈ $0.24</td><td class="num">≈ 20%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="prose fine">Margins assume Opus 5 throughout and Sarvam for Hindi. Typical use in creator tools runs at 40–60% of plan capacity, which is where the realistic margins sit. If margins matter more than the last increment of script quality, QA and Analyst on Sonnet 5 add roughly 10 points.</p>
+
+  <h3>Twelve months from paid launch (month 7 of the roadmap)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Assumption</th><th class="num">Conservative</th><th class="num">Base</th><th class="num">Optimistic</th></tr></thead>
+      <tbody>
+        <tr><td>Paying workspaces at month 12 after launch</td><td class="num">20</td><td class="num">100</td><td class="num">400</td></tr>
+        <tr><td>Average revenue per workspace per month</td><td class="num">$35</td><td class="num">$48</td><td class="num">$55</td></tr>
+        <tr><td>Monthly churn</td><td class="num">10%</td><td class="num">6%</td><td class="num">4%</td></tr>
+        <tr><td>MRR at month 12 after launch</td><td class="num">≈ $700</td><td class="num">≈ $4,800</td><td class="num">≈ $22,000</td></tr>
+        <tr><td>Gross margin at typical use</td><td class="num">50%</td><td class="num">55%</td><td class="num">60%</td></tr>
+        <tr><td>Fixed platform cost per month</td><td class="num">$150</td><td class="num">$400</td><td class="num">$1,200</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>The base case is one hundred paying creators, which five studio channels with a combined audience in the hundreds of thousands can plausibly send. That is why the roadmap does not build the product first: the studio is the distribution, and distribution was the missing piece in every earlier plan.</p>
+    <p>Customer acquisition beyond our own audience is not modelled. The obvious channel is the product itself: a "made with" end card on every customer reel in Starter, removable on paid tiers.</p>
+  </div>
+</section>
+
+<section id="gates">
+  <span class="eyebrow">§15</span>
+  <h2>Decision gates and KPIs</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>When</th><th>Metric</th><th>Keep going if</th><th>Otherwise</th></tr></thead>
+      <tbody>
+        <tr><td>Day 30</td><td>Average views per reel on the best persona, average watch percentage</td><td>≥ 2,000 views and ≥ 60% watched</td><td>Rewrite hooks and template before adding any volume</td></tr>
+        <tr><td>Day 30</td><td>Human approval rate</td><td>≥ 80%</td><td>Fix the Writer or QA prompt; never tune by adding reels</td></tr>
+        <tr><td>Day 60</td><td>Per-persona average views</td><td>Kill any persona under 1,000; promote the winner to two more reels a day</td><td>Redirect the freed cadence</td></tr>
+        <tr><td>Day 90</td><td>Partner Program progress on the best channel; first sponsor inquiry</td><td>≥ 1,000 subscribers or ≥ 1,000 watch hours; ≥ 1 inbound</td><td>Long-form is not landing; change the long-form format</td></tr>
+        <tr><td>Day 90</td><td>Affiliate or CPA clicks per 1,000 views</td><td>≥ 2</td><td>Move the CTA earlier and into the pinned comment; test product fit</td></tr>
+        <tr><td>Day 120</td><td>Go / no-go on the product layer</td><td>Two personas above 5,000 average views and zero strikes</td><td>Stay a studio; the product without proof is a hard sell</td></tr>
+        <tr><td>Beta, day 30</td><td>Onboarding time to first queue; beta users still active</td><td>Median under 10 minutes; ≥ 6 of 10 active</td><td>Fix the wizard before pricing anything</td></tr>
+        <tr><td>Launch + 90</td><td>Paying workspaces, monthly churn</td><td>≥ 25 paying, churn under 8%</td><td>Talk to every churned user before spending on acquisition</td></tr>
+        <tr><td>Always</td><td>Policy strikes, reach-limit warnings, on ours or a customer's persona</td><td>Zero</td><td>Pause the persona, review the last 30 scripts, tighten the pack</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout">
+    <span class="eyebrow">Recommendation</span>
+    <p>File the Meta and YouTube paperwork this week. Build the engine around three personas: AI Tools for income, Kahani for originality, Bhakti for reach, each a config file. Add Fitness &amp; Yoga in month two, the Body Talk pages in month three once a doctor agrees to be credited, and Comedy only with a character and original material. Prove the engine on your own channels for 120 days, then wrap it in the onboarding wizard and sell it to the audience those channels built.</p>
+  </div>
+</section>
+
+<section id="sources">
+  <span class="eyebrow">Sources checked 4 Sep 2026</span>
+  <ul class="sources">
+    <li><a href="https://fluxnote.io/guides/youtube-shorts-rpm-by-country">YouTube Shorts RPM by country</a> and <a href="https://www.upgrad.com/blog/how-much-does-youtube-make-in-india/">YouTube pay in India</a> for per-1k-view rates.</li>
+    <li><a href="https://air.io/en/monetization/youtube-partner-program-requirements-2026-the-complete-guide">YouTube Partner Program requirements 2026</a> and <a href="https://air.io/en/monetization/youtube-monetization-policy-changes-2026-a-complete-dated-timeline">policy change timeline</a> for thresholds and the inauthentic-content policy.</li>
+    <li><a href="https://developers.google.com/youtube/v3/guides/quota_and_compliance_audits">YouTube Data API quota and compliance audits</a> for the upload cost and the private lock on unaudited projects.</li>
+    <li><a href="https://postproxy.dev/blog/instagram-reels-api-publishing-guide/">Instagram Reels API publishing guide</a> and <a href="https://bundle.social/blog/instagram-api-rate-limits">Instagram API rate limits</a> for publishing caps.</li>
+    <li><a href="https://fluxnote.io/guides/instagram-reels-play-bonus-india-2026">Instagram Reels bonus in India 2026</a> and <a href="https://postinprofit.com/instagram-monetization-india-2026-how-indian-creators-can-start-earning-on-instagram/">Instagram monetization India 2026</a> for Instagram payout status.</li>
+    <li><a href="https://github.com/gitroomhq/postiz-app">Postiz on GitHub</a> as the open-source publishing reference.</li>
+    <li><a href="https://support.google.com/youtube/answer/6162278">YouTube advertiser-friendly content guidelines</a> for the limited-ads treatment of sexual-health education.</li>
+    <li>Claude API pricing from the Anthropic pricing page as cached in this session's tooling. Sarvam, Replicate and Hetzner prices are list estimates and should be re-checked before pricing plans.</li>
+  </ul>
+</section>
+</div>
+
+<script>
+(function () {
+  var data = [
+    { phase: "Months 1–3", vals: [45, 130, 580] },
+    { phase: "Months 4–6", vals: [130, 900, 3670] },
+    { phase: "Months 7–12", vals: [620, 4100, 10800] }
+  ];
+  var names = ["Conservative", "Base", "Optimistic"];
+  var colors = ["var(--c1)", "var(--c2)", "var(--c3)"];
+  var svg = document.getElementById("chart");
+  var tip = document.getElementById("tip");
+  var NS = "http://www.w3.org/2000/svg";
+  var left = 64, right = 700, top = 16, bottom = 252, max = 12000;
+  var plotH = bottom - top;
+  function y(v) { return bottom - (v / max) * plotH; }
+  function el(tag, attrs, text) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (text != null) e.textContent = text;
+    return e;
+  }
+  var muted = "var(--muted)", line = "var(--line)";
+  [0, 3000, 6000, 9000, 12000].forEach(function (t) {
+    svg.appendChild(el("line", { x1: left, x2: right, y1: y(t), y2: y(t), stroke: line, "stroke-width": 1 }));
+    svg.appendChild(el("text", { x: left - 8, y: y(t) + 4, "text-anchor": "end", "font-size": 11, fill: muted, "font-family": "IBM Plex Mono, monospace" }, t === 0 ? "$0" : "$" + (t / 1000) + "k"));
+  });
+  var groupW = (right - left) / data.length;
+  var barW = 44, gap = 6;
+  data.forEach(function (g, gi) {
+    var gx = left + gi * groupW + (groupW - (barW * 3 + gap * 2)) / 2;
+    svg.appendChild(el("text", { x: left + gi * groupW + groupW / 2, y: bottom + 20, "text-anchor": "middle", "font-size": 12, fill: muted, "font-family": "IBM Plex Sans, sans-serif" }, g.phase));
+    g.vals.forEach(function (v, si) {
+      var h = Math.max(2, (v / max) * plotH);
+      var x = gx + si * (barW + gap);
+      var r = el("rect", { x: x, y: bottom - h, width: barW, height: h, fill: colors[si], rx: 3 });
+      r.style.cursor = "default";
+      r.addEventListener("mouseenter", function () {
+        tip.textContent = names[si] + " · " + g.phase + " · $" + v.toLocaleString("en-US") + " / mo";
+        tip.style.opacity = 1;
+      });
+      r.addEventListener("mousemove", function (ev) {
+        var box = svg.parentNode.getBoundingClientRect();
+        tip.style.left = (ev.clientX - box.left) + "px";
+        tip.style.top = (ev.clientY - box.top - 6) + "px";
+      });
+      r.addEventListener("mouseleave", function () { tip.style.opacity = 0; });
+      svg.appendChild(r);
+      if (si === 1) {
+        svg.appendChild(el("text", { x: x + barW / 2, y: bottom - h - 6, "text-anchor": "middle", "font-size": 11, fill: "var(--ink)", "font-family": "IBM Plex Mono, monospace" }, "$" + v.toLocaleString("en-US")));
+      }
+    });
+  });
+  svg.appendChild(el("line", { x1: left, x2: right, y1: bottom, y2: bottom, stroke: "currentColor", "stroke-width": 1 }));
+})();
+</script>
