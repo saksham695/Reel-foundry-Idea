@@ -1,0 +1,33 @@
+{
+  "name": "reel-foundry",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "description": "One video, end to end. Image-sequence compositing instead of generated video.",
+  "scripts": {
+    "script": "tsx src/1-script.ts",
+    "voice": "tsx src/2-voice.ts",
+    "captions": "tsx src/3-captions.ts",
+    "images": "tsx src/4-images.ts",
+    "props": "tsx src/5-props.ts",
+    "render": "tsx src/6-render.ts",
+    "make": "tsx src/run.ts",
+    "studio": "remotion studio src/remotion/index.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.123.0",
+    "@remotion/cli": "4.0.520",
+    "@remotion/google-fonts": "4.0.520",
+    "@remotion/renderer": "4.0.520",
+    "dotenv": "^16.4.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "4.0.520",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}
