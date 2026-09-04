@@ -67,6 +67,6 @@ export type Props = {
   fps: number;
   audio: string;
   durationInSeconds: number;
-  segments: { id: string; text: string; on_screen: string; start: number; end: number; asset: AssetRef | null }[];
+  segments: { id: string; text: string; on_screen: string; start: number; end: number; direction?: DirectionSpec; asset: AssetRef | null }[];
   words: Word[];
 };

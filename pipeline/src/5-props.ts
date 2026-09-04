@@ -4,13 +4,13 @@
  */
 import path from "node:path";
 import { renderDir, staticPath, slugArg, readJson, writeJson } from "./lib/paths.ts";
-import type { AssetRef, Props, Word } from "./lib/schema.ts";
+import type { DirectionSpec, AssetRef, Props, Word } from "./lib/schema.ts";
 import { durationSeconds } from "./lib/wav.ts";
 
 const FPS = 30;
 const TAIL = 0.4; // let the last word breathe before the cut
 
-type Segment = { id: string; text: string; on_screen: string; start: number; end: number };
+type Segment = { id: string; text: string; on_screen: string; start: number; end: number; direction?: DirectionSpec };
 
 const slug = slugArg();
 const dir = renderDir(slug);
@@ -35,6 +35,7 @@ const props: Props = {
       on_screen: s.on_screen,
       start: s.start,
       end: s.end,
+      direction: s.direction,
       asset: asset ? { ...asset, file: staticPath(slug, "assets", asset.file) } : null,
     };
   }),

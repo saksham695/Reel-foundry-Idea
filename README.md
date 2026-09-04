@@ -53,6 +53,11 @@ The real deliverable is not the MP4 — it's `script.json` / `words.json` / `man
 Those are the seams every agent in the PRD plugs into later. Get the shapes right by hand
 now and the Planner, QA and Publisher become drop-ins.
 
+**`samples/bhabhi-patakha-3d.mp4` is a rigged 3D character composited over real footage**,
+rendered locally with no API calls and no spend — see
+[docs/DEPTH-AND-VOICE.md](docs/DEPTH-AND-VOICE.md). Run it with
+`npx tsx src/6-render.ts <slug> --3d`.
+
 **`samples/chai-mehngai.mp4` is a real video the pipeline produced** — 34.4s, 1080×1920,
 Hindi script, 8/8 segments with footage, burned Hindi captions with word highlighting.
 It was made with **no paid API key at all**, using `4-visuals-openverse.ts` (see below).

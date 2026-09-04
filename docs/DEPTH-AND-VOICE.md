@@ -48,6 +48,47 @@ The trade is that it looks like a 3D character, not a photoreal person. For
 [Kahani](kahani-character-and-sample-reel.md) that is a real choice, not a compromise —
 stylised recurring characters are exactly what the platforms call authentic.
 
+### This tier is built and shipped
+
+`samples/bhabhi-patakha-3d.mp4` is that row, running. A rigged CC0 character composited
+over the real footage, 24.8s at 1080×1920, rendered on an 8 GB M2 with **zero API calls
+and zero spend**. Run it yourself:
+
+```bash
+npx tsx src/6-render.ts <slug> --3d
+```
+
+How it works, in `pipeline/src/remotion/components/Character3D.tsx`:
+
+- **Nothing advances on wall-clock time.** Remotion renders frames out of order and in
+  parallel, so the `AnimationMixer` is scrubbed with `setTime(frame / fps)` — never a
+  delta inside `useFrame`. Get this wrong and the character stutters or freezes.
+- **The camera is auto-framed.** FBX2GLTF leaves a large node scale on the model and the
+  glTF accessor bounds are bind-pose only, so the only honest measurement is a `Box3` on
+  the loaded scene. The model is normalised to a fixed world height and re-centred, so
+  swapping the character does not mean re-tuning the camera.
+- **Emotion drives the body.** The segment's `direction.emotion` selects both the
+  animation clip and a facial morph target — `wry` leans on Sad at 0.28, `urgent` on
+  Surprised at 0.4.
+- **The mouth is driven by the caption timing.** This model has no visemes, so the head
+  nods and the Surprised morph pulses while a word from `words.json` is on screen. At
+  phone scale that reads as speech.
+- **Two light sources.** Warm key, cool rim. A single light is what makes a 3D render
+  look like a video-game screenshot.
+
+**Two things that will stop you cold:**
+
+1. **`Config.setChromiumOpenGlRenderer("angle")`** — without it every WebGL context fails
+   to create and the render dies at frame zero. Remotion tells you, but only in the
+   stack trace.
+2. **`@react-three/fiber` v9 requires React 19.** On React 18 you must pin
+   `@react-three/fiber@^8`, or npm refuses to resolve.
+
+The character shipped here is a **placeholder** — `RobotExpressive.glb`, CC0 1.0, from the
+three.js repo. It proves the stage end to end. Chameli should be authored in VRoid and
+rigged through Mixamo so the studio owns her outright; dropping her in is a one-line
+change to the `staticFile()` path.
+
 ## "Take some character from online" — read this first
 
 **Do not lift an existing character.** A recognisable character from a film, show, game or

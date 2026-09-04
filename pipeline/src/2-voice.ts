@@ -116,7 +116,7 @@ const narration = path.join(dir, "narration.wav");
 const starts = concat(files, narration);
 const timing = segs.map((seg, i) => {
   const dur = durationSeconds(files[i]);
-  return { id: seg.id, text: seg.text, on_screen: seg.on_screen, visual_cue: seg.visual_cue, start: starts[i], end: starts[i] + dur };
+  return { id: seg.id, text: seg.text, on_screen: seg.on_screen, visual_cue: seg.visual_cue, direction: seg.direction, start: starts[i], end: starts[i] + dur };
 });
 
 writeJson(path.join(dir, "timing.json"), timing);

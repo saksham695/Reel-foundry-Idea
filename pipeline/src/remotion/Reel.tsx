@@ -2,6 +2,7 @@ import { AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig } from "remot
 import { loadFont } from "@remotion/google-fonts/NotoSansDevanagari";
 import type { Props } from "../lib/schema.ts";
 import { BeatVisual } from "./components/BeatVisual.tsx";
+import { Character3D } from "./components/Character3D.tsx";
 import { Captions } from "./components/Captions.tsx";
 import { OnScreen } from "./components/OnScreen.tsx";
 
@@ -17,7 +18,7 @@ export const defaultProps: Props = {
   words: [],
 };
 
-export const Reel: React.FC<Props> = ({ audio, segments, words }) => {
+export const Reel: React.FC<Props & { character?: boolean }> = ({ audio, segments, words, character = false }) => {
   const { fps } = useVideoConfig();
 
   return (
@@ -32,6 +33,11 @@ export const Reel: React.FC<Props> = ({ audio, segments, words }) => {
           </Sequence>
         );
       })}
+
+      {/* The 3D character sits above the footage and below the captions: real
+          backplate, rigged character in front. One instance on the master
+          timeline — mounting it per segment would reload the GLB eight times. */}
+      {character ? <Character3D segments={segments} words={words} /> : null}
 
       {/* Captions run on the master timeline so words never reset at a cut. */}
       <Captions words={words} />
