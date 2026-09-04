@@ -15,6 +15,7 @@ We run our own personas on it first, then open it to anyone with a topic.
 | **[PRD + BRD](docs/prd-brd.md)** | The full spec: problem, persona lineup, pipeline, agents, platform, costs, roadmap, risks, and the revenue model |
 | [PRD + BRD (original HTML)](docs/prd-brd.html) | The same document as originally published — download and open in a browser |
 | **[Context and decisions](docs/context.md)** | How the lineup was chosen, what was rejected, and the constraints that shaped v0.2 |
+| **[Kahani — character + sample reel](docs/kahani-character-and-sample-reel.md)** | Chameli, the first recurring character: locked identity, the image-first consistency pipeline, and Episode 1 shot by shot |
 
 ## The shape of it in one screen
 
