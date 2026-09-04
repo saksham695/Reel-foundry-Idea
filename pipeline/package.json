@@ -1,0 +1,33 @@
+{
+  "name": "reel-foundry",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "One video, end to end. The vertical slice of the Reel Foundry pipeline.",
+  "scripts": {
+    "brief": "tsx src/1-script.ts",
+    "voice": "tsx src/2-voice.ts",
+    "captions": "tsx src/3-captions.ts",
+    "visuals": "tsx src/4-visuals.ts",
+    "props": "tsx src/5-props.ts",
+    "render": "tsx src/6-render.ts",
+    "make": "tsx src/run.ts",
+    "studio": "remotion studio src/remotion/index.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.123.0",
+    "@remotion/cli": "^4.0.0",
+    "@remotion/google-fonts": "^4.0.0",
+    "@remotion/renderer": "^4.0.0",
+    "dotenv": "^16.4.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}

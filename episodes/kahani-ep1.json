@@ -1,0 +1,92 @@
+{
+  "id": "kahani-ep1",
+  "title": "पीछे मत देखना",
+  "title_roman": "Peeche Mat Dekhna",
+  "title_en": "Don't look back",
+  "persona": "kahani",
+  "character": "chameli",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "duration_seconds": 48,
+  "logline": "A frightened man asks her not to look behind her. You expect a ghost. It is a birthday tiffin for a daughter who is not alive.",
+  "end_card": "कल — टिफ़िन के अंदर क्या था।",
+  "end_card_roman": "Kal — tiffin ke andar kya tha.",
+  "shots": [
+    {
+      "n": 1, "start": 0.0, "end": 3.0, "hero": true, "set": "auto_interior",
+      "vo": "रात के दो बजे एक सवारी ने मुझसे कहा — दीदी, पीछे मत देखना।",
+      "vo_roman": "Raat ke do baje ek sawaari ne mujhse kaha — didi, peeche mat dekhna.",
+      "prompt": "CHARACTER close up, her face lit only by the warm dashboard glow from below, eyes to camera, seated at the handlebars of the auto-rickshaw at night, rain on the windscreen behind her, everything else in darkness",
+      "motion": "micro head-turn, one slow blink",
+      "fallback_motion": "slow push-in"
+    },
+    {
+      "n": 2, "start": 3.0, "end": 8.0, "hero": false, "set": "night_street",
+      "vo": "लखनऊ की सड़कें दो बजे खाली हो जाती हैं। मैं खाली ही चलती हूँ।",
+      "vo_roman": "Lucknow ki sadkein do baje khaali ho jaati hain. Main khaali hi chalti hoon.",
+      "prompt": "wide shot of an empty wet Lucknow street at 2am, a single black-and-yellow auto-rickshaw approaching, its headlight the only strong light, sodium streetlights, closed shutters, standing water reflecting orange",
+      "motion": "slow push-in with rain overlay"
+    },
+    {
+      "n": 3, "start": 8.0, "end": 14.0, "hero": false, "set": "auto_interior",
+      "vo": "वो हाथ में एक टिफ़िन लिए बैठा। दोनों हाथों से पकड़े हुए, जैसे कोई गिर न जाए।",
+      "vo_roman": "Woh haath mein ek tiffin liye baitha. Dono haathon se pakde hue, jaise koi gir na jaaye.",
+      "prompt": "a thin Indian man about fifty years old sitting in the back of the auto-rickshaw at night, holding a steel tiffin carrier with both hands against his chest, his face half in shadow, streetlights passing outside",
+      "motion": "parallax drift"
+    },
+    {
+      "n": 4, "start": 14.0, "end": 20.0, "hero": false, "set": "auto_interior",
+      "vo": "बोला — चलिए दीदी। और पीछे मत देखना।",
+      "vo_roman": "Bola — chaliye didi. Aur peeche mat dekhna.",
+      "prompt": "over-the-shoulder shot from the front seat of the auto-rickshaw looking back at the passenger, his face half lit by a passing streetlight, his mouth mid-sentence, the steel tiffin in his lap",
+      "motion": "slow lateral drift"
+    },
+    {
+      "n": 5, "start": 20.0, "end": 27.0, "hero": true, "set": "auto_interior",
+      "vo": "मैंने देख लिया। पीछे कोई नहीं था। सिर्फ़ वो, और वो टिफ़िन।",
+      "vo_roman": "Maine dekh liya. Peeche koi nahi tha. Sirf woh, aur woh tiffin.",
+      "prompt": "CHARACTER seated at the handlebars of the auto-rickshaw at night, seen reflected in a cracked rear-view mirror, her eyes raised to the mirror, dashboard light warm on her face from below, the Hanuman idol and dried marigold garland out of focus in the foreground",
+      "motion": "her eyes rise to the mirror and hold",
+      "fallback_motion": "push-in on the mirror"
+    },
+    {
+      "n": 6, "start": 27.0, "end": 34.0, "hero": false, "set": "auto_interior",
+      "vo": "आज मेरी बेटी का जन्मदिन है, उसने कहा। उसे खीर बहुत पसंद है।",
+      "vo_roman": "Aaj meri beti ka janamdin hai, usne kaha. Use kheer bahut pasand hai.",
+      "prompt": "close up of the man's weathered hands gripping the steel tiffin in his lap, heavy rain running down the auto-rickshaw windscreen behind, wiper blade blurred mid-sweep, warm and cold light mixing",
+      "motion": "static with rain and wiper layers"
+    },
+    {
+      "n": 7, "start": 34.0, "end": 41.0, "hero": true, "set": "destination",
+      "vo": "मैंने पता पूछा नहीं था। उसने बताया भी नहीं था।",
+      "vo_roman": "Maine pata poocha nahi tha. Usne bataya bhi nahi tha.",
+      "prompt": "the auto-rickshaw stopped at night in front of a tall rusted iron cemetery gate, wet road, one sodium lamp above the gate, gravestones faintly visible beyond the bars, rain falling through the light",
+      "motion": "slow reveal as the gate comes into frame",
+      "fallback_motion": "slow tilt up the gate"
+    },
+    {
+      "n": 8, "start": 41.0, "end": 46.0, "hero": false, "set": "auto_interior",
+      "vo": "वो उतर गया। टिफ़िन वहीं रह गया।",
+      "vo_roman": "Woh utar gaya. Tiffin wahin reh gaya.",
+      "prompt": "the empty back seat of the auto-rickshaw at night, a steel tiffin carrier left alone on the seat, the open side of the auto showing the cemetery gate out of focus behind, rain",
+      "motion": "push-in on the tiffin"
+    },
+    {
+      "n": 9, "start": 46.0, "end": 48.0, "hero": false, "set": "card",
+      "vo": "",
+      "vo_roman": "",
+      "prompt": null,
+      "motion": "static end card"
+    }
+  ],
+  "safety": {
+    "original_character": true,
+    "real_person": false,
+    "health_claim": false,
+    "religious_authority_claim": false,
+    "scraped_footage": false,
+    "audio": "licensed or original only — never a film or bhajan track (Content ID)",
+    "human_gate": "required before publish"
+  }
+}

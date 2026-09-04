@@ -1,0 +1,16 @@
+{
+  "slug": "smoke",
+  "language": "en",
+  "hook": "Nobody noticed when the tea got expensive.",
+  "hook_visual_cue": "steaming tea glass on counter",
+  "beats": [
+    { "text": "Two years ago this glass cost you ten rupees.", "visual_cue": "roadside tea stall india", "on_screen": "Ten rupees" },
+    { "text": "Today the same glass costs twenty.", "visual_cue": "coins on wooden counter", "on_screen": "Now twenty" },
+    { "text": "That is one hundred percent, in twenty four months.", "visual_cue": "hands counting money", "on_screen": "One hundred percent" },
+    { "text": "And not one person at the stall said anything about it.", "visual_cue": "people talking at street stall", "on_screen": "Nobody said a word" }
+  ],
+  "cta": "Check your own chai. Then check what else moved.",
+  "title": "The tea price nobody argued about",
+  "caption": "Ten to twenty in two years. Nobody blinked.",
+  "hashtags": ["#chai", "#india", "#mehngai", "#shorts", "#everyday"]
+}

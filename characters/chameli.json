@@ -1,0 +1,42 @@
+{
+  "id": "chameli",
+  "persona": "kahani",
+  "name": "Chameli",
+  "trigger_word": "CHAMELI",
+  "one_line": "A 26-year-old woman who drives an auto-rickshaw through Lucknow between 10pm and 5am. Every episode is one passenger and one secret.",
+  "identity_block": "Chameli, 26-year-old Indian woman, oval face, warm brown skin, thick straight black hair pulled into a low knot with a stray strand at the left temple, dark almond eyes, small mole below the right eye, straight nose, full lips, small silver nose stud on the left, single thin gold ring in each ear",
+  "wardrobe": "faded olive-green kurta over dark jeans, a maroon shawl looped once around the neck, worn brown leather sandals, a steel watch on the left wrist",
+  "never_changes": ["the mole below the right eye", "the silver nose stud on the left", "the stray strand at the left temple", "the maroon shawl"],
+  "prop": "black-and-yellow auto-rickshaw, small Hanuman idol on the dash, a string of dried marigold over the mirror, a cracked left rear-view mirror, sticker on the back reading maa ka aashirwad",
+  "style_tail": "cinematic still, 9:16 vertical, shallow depth of field, sodium-vapour streetlight and warm dashboard glow, muted teal and amber, film grain, photorealistic, no text, no watermark",
+  "negative": "text, watermark, logo, extra fingers, deformed hands, two people merged, cartoon, anime, oversaturated, plastic skin, western features",
+  "seed": 778201,
+  "voice": {
+    "provider": "sarvam",
+    "model": "bulbul:v2",
+    "speaker": "meera",
+    "language": "hi-IN",
+    "pace": 0.95,
+    "fallback": { "provider": "macos-say", "voice": "Lekha", "rate": 168 },
+    "direction": "Low and unhurried, a little tired. First person, past tense, as if telling you this after the shift. Never explains the twist."
+  },
+  "sets": {
+    "auto_interior": "interior of a black-and-yellow auto-rickshaw at night, warm dashboard glow from below, small Hanuman idol and dried marigold garland, rain beading on the windscreen",
+    "night_street": "empty wet Lucknow street at 2am, sodium-vapour streetlights, closed shop shutters, standing water reflecting the lights, no crowds",
+    "destination": "changes every episode; this is where the twist lives"
+  },
+  "sheet_poses": [
+    "front view, neutral expression",
+    "front view, faint smile",
+    "three-quarter view turned left",
+    "three-quarter view turned right",
+    "profile view, left side",
+    "looking up into the rear-view mirror",
+    "eyes down, tired, end of a long shift",
+    "laughing, head tilted back slightly",
+    "afraid, jaw tight, eyes wide",
+    "full body, standing beside the auto-rickshaw",
+    "seated at the handlebars, seen from the passenger seat",
+    "face lit only by the dashboard, close up"
+  ]
+}

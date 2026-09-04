@@ -1,0 +1,50 @@
+[
+  {
+    "id": "hook",
+    "text": "Nobody noticed when the tea got expensive.",
+    "on_screen": "Nobody noticed when the tea got expensive.",
+    "visual_cue": "steaming tea glass on counter",
+    "start": 0,
+    "end": 2.6922902494331065
+  },
+  {
+    "id": "beat-1",
+    "text": "Two years ago this glass cost you ten rupees.",
+    "on_screen": "Ten rupees",
+    "visual_cue": "roadside tea stall india",
+    "start": 2.8122902494331066,
+    "end": 6.273832199546485
+  },
+  {
+    "id": "beat-2",
+    "text": "Today the same glass costs twenty.",
+    "on_screen": "Now twenty",
+    "visual_cue": "coins on wooden counter",
+    "start": 6.393832199546485,
+    "end": 8.701541950113379
+  },
+  {
+    "id": "beat-3",
+    "text": "That is one hundred percent, in twenty four months.",
+    "on_screen": "One hundred percent",
+    "visual_cue": "hands counting money",
+    "start": 8.821541950113378,
+    "end": 12.283083900226757
+  },
+  {
+    "id": "beat-4",
+    "text": "And not one person at the stall said anything about it.",
+    "on_screen": "Nobody said a word",
+    "visual_cue": "people talking at street stall",
+    "start": 12.403083900226758,
+    "end": 16.633832199546486
+  },
+  {
+    "id": "cta",
+    "text": "Check your own chai. Then check what else moved.",
+    "on_screen": "Check your own chai. Then check what else moved.",
+    "visual_cue": "people talking at street stall",
+    "start": 16.753832199546487,
+    "end": 20.215374149659866
+  }
+]

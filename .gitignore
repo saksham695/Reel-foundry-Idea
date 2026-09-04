@@ -1,0 +1,7 @@
+node_modules/
+.env
+pipeline/node_modules/
+pipeline/.env
+pipeline/public/renders/
+.DS_Store
+*.log

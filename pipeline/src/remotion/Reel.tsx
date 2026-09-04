@@ -1,0 +1,42 @@
+import { AbsoluteFill, Audio, Sequence, staticFile, useVideoConfig } from "remotion";
+import { loadFont } from "@remotion/google-fonts/NotoSansDevanagari";
+import type { Props } from "../lib/schema.ts";
+import { BeatVisual } from "./components/BeatVisual.tsx";
+import { Captions } from "./components/Captions.tsx";
+import { OnScreen } from "./components/OnScreen.tsx";
+
+const { fontFamily } = loadFont();
+
+export const defaultProps: Props = {
+  slug: "example",
+  language: "hi",
+  fps: 30,
+  audio: "",
+  durationInSeconds: 40,
+  segments: [],
+  words: [],
+};
+
+export const Reel: React.FC<Props> = ({ audio, segments, words }) => {
+  const { fps } = useVideoConfig();
+
+  return (
+    <AbsoluteFill style={{ backgroundColor: "#0a0a0a", fontFamily }}>
+      {segments.map((seg) => {
+        const from = Math.round(seg.start * fps);
+        const duration = Math.max(1, Math.round((seg.end - seg.start) * fps));
+        return (
+          <Sequence key={seg.id} from={from} durationInFrames={duration}>
+            <BeatVisual asset={seg.asset} />
+            <OnScreen text={seg.on_screen} />
+          </Sequence>
+        );
+      })}
+
+      {/* Captions run on the master timeline so words never reset at a cut. */}
+      <Captions words={words} />
+
+      {audio ? <Audio src={staticFile(audio)} /> : null}
+    </AbsoluteFill>
+  );
+};
